@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import '../../assets/css/reset.css';
 import '../../assets/css/main.css';
-import '../../assets/css/base.css';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined';

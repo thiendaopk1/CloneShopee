@@ -497,6 +497,7 @@
     box-shadow: 0 1px 5px rgb(189, 189, 189);
     overflow: hidden;
     display: none;
+    z-index: 1;
 }
 
 .header__search-history-title {
@@ -510,6 +511,7 @@
     padding-left: 0;
     list-style: none;
     margin:6px 0 0 ;
+    
 }
 
 .header__search-history-item {
