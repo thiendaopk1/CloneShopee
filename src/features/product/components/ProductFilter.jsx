@@ -1,14 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ListIcon from '@material-ui/icons/List';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, TextField } from '@material-ui/core';
 ProductFilter.propTypes = {};
 const useStyle = makeStyles((theme) => ({
   icon: {
     fontSize: '18px',
     marginRight: '8px',
   },
+  input: {
+    // border: '1px solid black',
+  },
 }));
+
 function ProductFilter(props) {
   const classes = useStyle();
   return (

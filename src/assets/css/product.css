@@ -111,7 +111,8 @@
     background: #fff;
     white-space: nowrap;
     box-sizing: border-box; 
-    cursor: pointer;   
+    cursor: pointer;
+     
 }
 
 .product-sort__options-option--selected {
@@ -135,6 +136,7 @@
 
 .select-input:hover .select-input__list {
     display: block;
+    z-index: 2;
 }
 
 .select-input__list::before {

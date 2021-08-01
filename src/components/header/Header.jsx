@@ -1,20 +1,29 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import '../../assets/css/main.css';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  IconButton,
+  makeStyles,
+  useMediaQuery,
+  useTheme,
+} from '@material-ui/core';
+import { Close } from '@material-ui/icons';
 import FacebookIcon from '@material-ui/icons/Facebook';
+import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined';
-import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
-import { Badge, makeStyles } from '@material-ui/core';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import classNames from 'classnames';
-import qrCode from '../../assets/images/qrcode.png';
+import React from 'react';
+import '../../assets/css/main.css';
 import appStore from '../../assets/images/appStore.png';
 import googleplay from '../../assets/images/googlePlay.png';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import Search from '../search/Search';
+import qrCode from '../../assets/images/qrcode.png';
+import Register from '../../features/auth/register/Register';
 import Cart from '../cart/Cart';
-import no_cart from '../../assets/images/no_cart.png';
-import InputField from '../../components/form-control/InputField';
+import Search from '../search/Search';
+
 Header.propTypes = {};
 const useStyle = makeStyles((theme) => ({
   icon__link: {
@@ -41,9 +50,28 @@ const useStyle = makeStyles((theme) => ({
     fontSize: '2.4rem',
     margin: '6px',
   },
+
+  closeButton: {
+    position: 'absolute',
+    top: theme.spacing(1),
+    right: theme.spacing(1),
+    color: theme.palette.grey[500],
+  },
 }));
 function Header(props) {
   const classes = useStyle();
+
+  const [open, setOpen] = React.useState(false);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <div className="header">
       <div className="grid">
@@ -100,13 +128,20 @@ function Header(props) {
                 Hỗ trợ
               </a>
             </li>
+
             {/* chua dang nhap */}
-            {/* <li className="header__navbar-item header__navbar-item--strong header__navbar-item--sperate">
+
+            <li
+              className="header__navbar-item header__navbar-item--strong header__navbar-item--sperate"
+              onClick={handleClickOpen}
+            >
               Đăng ký
             </li>
-            <li className="header__navbar-item header__navbar-item--strong">Đăng nhập</li> */}
+            <li className="header__navbar-item header__navbar-item--strong">Đăng nhập</li>
+
             {/* da dang nhap */}
-            <li className="header__navbar-item header__navbar-user">
+
+            {/* <li className="header__navbar-item header__navbar-user">
               <div className="header__navbar-user-avatar">
                 <div className="header__navbar-user-img">
                   <svg
@@ -146,7 +181,7 @@ function Header(props) {
                   <a href="">Đăng xuất</a>
                 </li>
               </ul>
-            </li>
+            </li> */}
           </ul>
         </nav>
         {/* header-with-searh */}
@@ -177,6 +212,21 @@ function Header(props) {
           </div>
         </div>
       </div>
+      <Dialog
+        fullScreen={fullScreen}
+        open={open}
+        onClose={handleClose}
+        disableBackdropClick
+        disableEscapeKeyDown
+        aria-labelledby="responsive-dialog-title"
+      >
+        <IconButton onClick={handleClose} className={classes.closeButton}>
+          <Close />
+        </IconButton>
+        <DialogContent>
+          <Register />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
