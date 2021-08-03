@@ -1,12 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  Avatar,
-  Button,
-  LinearProgress,
-  makeStyles,
-  Typography,
-} from '@material-ui/core';
-import LockOutlined from '@material-ui/icons/LockOpenOutlined';
+import { Button, LinearProgress, makeStyles, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -18,15 +11,20 @@ const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(1, 0, 1, 0),
   },
-  avatar: {
-    margin: '0 auto',
-    backgroundColor: theme.palette.secondary.main,
-  },
+
   title: {
-    textAlign: 'center',
+    display: 'flex',
+    float: 'left',
+    color: '#222',
+    padding: '15px 0px',
   },
   submit: {
     // margin: theme.spacing(2, 0,1, 0)
+    color: '#fff',
+    backgroundColor: '#ee4d2d',
+    padding: '0px 10px',
+    height: '40px',
+    marginTop: '20px',
   },
 }));
 
@@ -91,29 +89,24 @@ function RegisterForm(props) {
   return (
     <div className={classes.root}>
       {isSubmitting && <LinearProgress />}
-
-      <Avatar className={classes.avatar}>
-        <LockOutlined></LockOutlined>
-      </Avatar>
-      <Typography className={classes.title} component="h3" variant="h5">
-        Sign Up
+      <Typography className={classes.title} component="h3" variant="h4">
+        Đăng ký
       </Typography>
       <form onSubmit={form.handleSubmit(handleSubmit)}>
-        <InputField name="fullName" label="Full Name" form={form} />
-        <InputField name="email" label="Email" form={form} />
-        <PasswordField name="password" label="Password" form={form} />
-        <PasswordField name="repassword" label="Retype Password" form={form} />
-        <InputField name="phone" label="Phone Number" form={form} />
-        <InputField name="address" label="Address" form={form} />
+        <InputField name="fullName" placeholder="Full Name" form={form} />
+        <InputField name="email" placeholder="Email" form={form} />
+        <PasswordField name="password" form={form} placeholder="Mật khẩu" />
+        <PasswordField name="repassword" form={form} placeholder="Nhập lại Mật khẩu" />
+        <InputField name="phone" placeholder="Số điện thoại" form={form} />
+        <InputField name="address" placeholder="Địa chỉ" form={form} />
         <Button
-          disabled={isSubmitting}
+          // disabled={isSubmitting}
           type="submit"
           className={classes.submit}
           variant="contained"
-          color="primary"
           fullWidth
         >
-          create an Account
+          Đăng ký
         </Button>
       </form>
     </div>

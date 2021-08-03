@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import '../../../assets/css/product.css';
 import ProductFilter from '../components/ProductFilter';
@@ -6,6 +6,9 @@ import ProductSort from '../components/ProductSort';
 import ProductList from '../components/ProductList';
 import { ThemeProvider, createTheme, makeStyles } from '@material-ui/core/styles';
 import Pagination from '@material-ui/lab/Pagination';
+import { useHistory, useLocation } from 'react-router-dom';
+import queryString from 'query-string';
+import productApi from '../../../api/productApi';
 ListProduct.propTypes = {};
 
 const useStyle = makeStyles((theme) => ({
@@ -50,6 +53,46 @@ const theme = createTheme({
   },
 });
 function ListProduct(props) {
+  const history = useHistory();
+  const location = useLocation();
+  // const queryParams = useMemo(() => {
+  //   const params = queryString.parse(location.search);
+
+  //   return {
+  //     ...params,
+  //     _page: Number.parseInt(params._page) || 1,
+  //     _limit: Number.parseInt(params._limit) || 15,
+  //     _sort: params._sort || '_sortBy=pop',
+  //   };
+  // }, [location.search]);
+
+  const [productList, setProductList] = useState([]);
+  console.log('productList', productList);
+  const [pagination, setPagination] = useState({
+    limit: 15,
+    total: 10,
+    page: 1,
+  });
+  const [loading, setLoading] = useState([true]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        // const params2 = { ...queryParams };
+
+        const rp = await productApi.getAll();
+        // const { data, pagination } = rp;
+        console.log(rp);
+        // console.log('data', data);
+        setProductList(rp);
+
+        setPagination(pagination);
+      } catch (error) {
+        console.log('failed', error);
+      }
+      setLoading(false);
+    })();
+  }, []);
   const classes = useStyle();
   return (
     <div className="app__container">

@@ -6,7 +6,7 @@ import {
   IconButton,
   InputAdornment,
   InputLabel,
-  OutlinedInput,
+  Input,
 } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
@@ -20,7 +20,7 @@ PasswordField.propTypes = {
 };
 
 function PasswordField(props) {
-  const { form, name, label, disabled } = props;
+  const { form, name, label, disabled, placeholder } = props;
   const { errors } = form;
   const hasError = !!errors[name];
   const [showPassword, setShowPassword] = useState(false);
@@ -30,15 +30,17 @@ function PasswordField(props) {
   };
   return (
     <div>
-      <FormControl error={hasError} fullWidth margin="normal" variant="outlined">
-        <InputLabel htmlFor={name}>{label}</InputLabel>
+      <FormControl error={hasError} fullWidth>
+        {/* <InputLabel htmlFor={name}>{label}</InputLabel> */}
         <Controller
           name={name}
           control={form.control}
-          as={OutlinedInput}
+          as={Input}
           id={name}
+          placeholder={placeholder}
           type={showPassword ? 'text' : 'password'}
           label={label}
+          disableUnderline
           endAdornment={
             <InputAdornment position="end">
               <IconButton
@@ -52,9 +54,10 @@ function PasswordField(props) {
           }
           disabled={disabled}
           error={!!hasError}
+          className="input-field"
           // helperText={errors[name]?.message}
         />
-        <FormHelperText>{errors[name]?.message}</FormHelperText>
+        {/* <FormHelperText>{errors[name]?.message}</FormHelperText> */}
       </FormControl>
     </div>
   );

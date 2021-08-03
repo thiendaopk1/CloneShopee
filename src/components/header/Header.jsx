@@ -15,7 +15,7 @@ import InstagramIcon from '@material-ui/icons/Instagram';
 import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import classNames from 'classnames';
-import React from 'react';
+import React, { useState } from 'react';
 import '../../assets/css/main.css';
 import appStore from '../../assets/images/appStore.png';
 import googleplay from '../../assets/images/googlePlay.png';
@@ -23,6 +23,7 @@ import qrCode from '../../assets/images/qrcode.png';
 import Register from '../../features/auth/register/Register';
 import Cart from '../cart/Cart';
 import Search from '../search/Search';
+import Login from '../../features/auth/login/Login';
 
 Header.propTypes = {};
 const useStyle = makeStyles((theme) => ({
@@ -61,16 +62,25 @@ const useStyle = makeStyles((theme) => ({
 function Header(props) {
   const classes = useStyle();
 
-  const [open, setOpen] = React.useState(false);
+  const [openSignUp, setOpenSignUp] = useState(false);
+  const [openLogIn, setOpenLogIn] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleClickOpenSignUp = () => {
+    setOpenSignUp(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleClickOpenLogIn = () => {
+    setOpenLogIn(true);
+  };
+
+  const handleCloseSignUp = () => {
+    setOpenSignUp(false);
+  };
+
+  const handleCloseLogIn = () => {
+    setOpenLogIn(false);
   };
   return (
     <div className="header">
@@ -133,11 +143,16 @@ function Header(props) {
 
             <li
               className="header__navbar-item header__navbar-item--strong header__navbar-item--sperate"
-              onClick={handleClickOpen}
+              onClick={handleClickOpenSignUp}
             >
               Đăng ký
             </li>
-            <li className="header__navbar-item header__navbar-item--strong">Đăng nhập</li>
+            <li
+              className="header__navbar-item header__navbar-item--strong"
+              onClick={handleClickOpenLogIn}
+            >
+              Đăng nhập
+            </li>
 
             {/* da dang nhap */}
 
@@ -212,21 +227,41 @@ function Header(props) {
           </div>
         </div>
       </div>
+      {/* form đăng ký */}
       <Dialog
         fullScreen={fullScreen}
-        open={open}
-        onClose={handleClose}
+        open={openSignUp}
+        onClose={handleCloseSignUp}
         disableBackdropClick
         disableEscapeKeyDown
         aria-labelledby="responsive-dialog-title"
       >
-        <IconButton onClick={handleClose} className={classes.closeButton}>
+        <IconButton onClick={handleCloseSignUp} className={classes.closeButton}>
           <Close />
         </IconButton>
         <DialogContent>
           <Register />
         </DialogContent>
       </Dialog>
+      {/* end form đăng ký */}
+
+      {/* form đăng nhập */}
+      <Dialog
+        fullScreen={fullScreen}
+        open={openLogIn}
+        onClose={handleCloseLogIn}
+        disableBackdropClick
+        disableEscapeKeyDown
+        aria-labelledby="responsive-dialog-title"
+      >
+        <IconButton onClick={handleCloseLogIn} className={classes.closeButton}>
+          <Close />
+        </IconButton>
+        <DialogContent>
+          <Login />
+        </DialogContent>
+      </Dialog>
+      {/* end form đăng nhập */}
     </div>
   );
 }
