@@ -2,19 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import Rating from '@material-ui/lab/Rating';
-Product.propTypes = {};
+Product.propTypes = {
+  product: PropTypes.object,
+};
 
-function Product(props) {
+function Product({ product }) {
+  const { name, price, quantitySold, rate, sale, salePrice, images } = product;
+  const img = images[0].path;
   return (
     <div className="product__items">
       <div className="product__item">
         {/* img */}
         <div className="product__item-img">
-          <img
-            src="https://cf.shopee.vn/file/997cbd88b1f8db3482269bd3da8df20a_tn"
-            alt=""
-            className="product__img"
-          />
+          <img src={img} alt="" className="product__img" />
           <div className="product__satus">
             <div className="product__status-favorite">
               <span className="favorite">Yêu thích</span>
@@ -23,7 +23,7 @@ function Product(props) {
           <div className="product__badge">
             <div className="product__badge-promotion">
               <div className="product__badege-promotion-content">
-                <span className="product__badge-promotion-sale">28%</span>
+                <span className="product__badge-promotion-sale">{sale}%</span>
                 <span className="product__badge-promotion-label">Giảm</span>
               </div>
             </div>
@@ -33,55 +33,29 @@ function Product(props) {
         <div className="product__item-info">
           {/* name */}
           <div className="product__item-name">
-            <div className="product__item-name-product">
-              GĂNG TAY SIÊU DAI HÌNH HƯU HẠC
-            </div>
+            <div className="product__item-name-product">{name}</div>
           </div>
           {/* sale-price */}
           <div className="product__item-prices">
-            <div className="product_item-prices-original">25.000</div>
-            <div
-              className="product__item-prices-sale"
-              style={{ maxWidth: 'calc(100% - 22px)' }}
-            >
-              17.000
+            <div className="product_item-prices-original">
+              {new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND',
+              }).format(price)}
+            </div>
+            <div className="product__item-prices-sale" style={{ maxWidth: 'calc(100% - 22px)' }}>
+              {new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND',
+              }).format(salePrice)}
             </div>
             <div className="product__item-freeShip">
               <svg height="12" viewBox="0 0 20 12" width="20" class="icon-free-shipping">
                 <g fill="none" fill-rule="evenodd" transform="">
-                  <rect
-                    fill="#00bfa5"
-                    fill-rule="evenodd"
-                    height="9"
-                    rx="1"
-                    width="12"
-                    x="4"
-                  ></rect>
-                  <rect
-                    height="8"
-                    rx="1"
-                    stroke="#00bfa5"
-                    width="11"
-                    x="4.5"
-                    y=".5"
-                  ></rect>
-                  <rect
-                    fill="#00bfa5"
-                    fill-rule="evenodd"
-                    height="7"
-                    rx="1"
-                    width="7"
-                    x="13"
-                    y="2"
-                  ></rect>
-                  <rect
-                    height="6"
-                    rx="1"
-                    stroke="#00bfa5"
-                    width="6"
-                    x="13.5"
-                    y="2.5"
-                  ></rect>
+                  <rect fill="#00bfa5" fill-rule="evenodd" height="9" rx="1" width="12" x="4"></rect>
+                  <rect height="8" rx="1" stroke="#00bfa5" width="11" x="4.5" y=".5"></rect>
+                  <rect fill="#00bfa5" fill-rule="evenodd" height="7" rx="1" width="7" x="13" y="2"></rect>
+                  <rect height="6" rx="1" stroke="#00bfa5" width="6" x="13.5" y="2.5"></rect>
                   <circle cx="8" cy="10" fill="#00bfa5" r="2"></circle>
                   <circle cx="15" cy="10" fill="#00bfa5" r="2"></circle>
                   <path
@@ -102,9 +76,9 @@ function Product(props) {
               <FavoriteBorderIcon />
             </div>
             <div className="product__item-rate">
-              <Rating name="half-rating-read" value={5} precision={0.1} readOnly />
+              <Rating name="half-rating-read" value={rate} precision={0.1} readOnly />
             </div>
-            <div className="product__item-saled">Đã bán 45</div>
+            <div className="product__item-saled">Đã bán {quantitySold}</div>
           </div>
           {/* adress */}
           <div className="product__item-address">Hồ Chí Minh</div>

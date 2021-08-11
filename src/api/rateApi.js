@@ -1,10 +1,10 @@
 import axiosClient from './axiosClient';
 
-const brandApi = {
+const rateApi = {
   getAll(params) {
-    const url = `/api/brands`;
+    const url = `/api/rates `;
     return axiosClient.get(url, { params });
   },
 };
 
-export default brandApi;
+export default rateApi;

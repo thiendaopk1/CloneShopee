@@ -2,7 +2,7 @@ import axiosClient from './axiosClient';
 
 const productApi = {
   getAll(params) {
-    const url = `api/products`;
+    const url = `/api/products`;
     return axiosClient.get(url, { params });
   },
   getAll2(params) {
@@ -10,7 +10,7 @@ const productApi = {
     return axiosClient.get(url);
   },
   get(id) {
-    const url = `/product/${id}`;
+    const url = `/api/product?id=${id}`;
     return axiosClient.get(url);
   },
   add(data) {

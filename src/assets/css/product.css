@@ -31,13 +31,13 @@
     margin-top: 0;
 }
 
-.category-list {
+.brand-list {
     list-style: none;
     padding-left: 0;
    
 }
 
-.category-item {
+.brand-item {
     position: relative;
     display: block;
     text-decoration: none;
@@ -52,15 +52,15 @@
     /* transition: right linear 0.1s; */
 }
 
-.category-item:first-child {
+.brand-item:first-child {
     border: 0;
 }
 
-.category-item--active {
+.brand-item--active {
     color: #ee4d2d;
 }
 
-.category-item--active::before {
+.brand-item--active::before {
     position: absolute;
     top: 50%;
     left: 3px;
@@ -466,4 +466,33 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+/* filter price */
+.price__filter-list {
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+}
+
+/* filte rate */
+.rate__filter-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.rate__filter-item {
+    display: flex;
+    align-items: center;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.rate-label {
+    font-size: 1.2rem;
+    margin-left: 5px;
+}
+
+.rate__filter-item:last-child  .rate-label{
+    display: none;
 }

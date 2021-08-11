@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import '../../assets/css/main.css';
 import no_cart from '../../assets/images/no_cart.png';
 import { Button, makeStyles } from '@material-ui/core';
+import { useSelector } from 'react-redux';
+import { cartTotalCountSelectors } from '../../features/product/components/shoppingCart/selectors';
 Cart.propTypes = {};
 
 const useStyle = makeStyles((theme) => ({
@@ -24,52 +26,42 @@ const useStyle = makeStyles((theme) => ({
 
 function Cart(props) {
   const classes = useStyle();
+
+  const products = useSelector((state) => {
+    return state.cart.cartItems;
+  });
+  const priceTotal = useSelector(cartTotalCountSelectors);
+
   return (
     <div className="header__cart-list">
       <h4 className="header__cart-heading">Sản phẩm mới thêm</h4>
       <ul className="header__cart-list-item">
-        <li className="header__cart-item">
-          <div className="header__cart-item-img"></div>
-          <div className="header__cart-item-info">
-            <div className="header__cart-item-head">
-              <h5 className="header__cart-item-name">
-                Kẹo Milo cube 275g 100 viên date 2022
-              </h5>
-              <span className="header__cart-item-price">26.000</span>
+        {products.map((product) => (
+          <li key={product.id} className="header__cart-item">
+            <img className="header__cart-item-img" src={product.newProduct.images[0].path} />
+            <div className="header__cart-item-info">
+              <div className="header__cart-item-head">
+                <h5 className="header__cart-item-name">{product.newProduct.name}</h5>
+                <span className="header__cart-item-price">
+                  {new Intl.NumberFormat('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND',
+                  }).format(product.newProduct.salePrice)}
+                </span>
+              </div>
+              <span className="header__cart-item-quantity">x{product.quantity}</span>
             </div>
-          </div>
-        </li>
-      </ul>
-
-      <ul className="header__cart-list-item">
-        <li className="header__cart-item">
-          <div className="header__cart-item-img"></div>
-          <div className="header__cart-item-info">
-            <div className="header__cart-item-head">
-              <h5 className="header__cart-item-name">
-                Kẹo Milo cube 275g 100 viên date 2022
-              </h5>
-              <span className="header__cart-item-price">26.000</span>
-            </div>
-          </div>
-        </li>
-      </ul>
-
-      <ul className="header__cart-list-item">
-        <li className="header__cart-item">
-          <div className="header__cart-item-img"></div>
-          <div className="header__cart-item-info">
-            <div className="header__cart-item-head">
-              <h5 className="header__cart-item-name">
-                Kẹo Milo cube 275g 100 viên date 2022
-              </h5>
-              <span className="header__cart-item-price">26.000</span>
-            </div>
-          </div>
-        </li>
+          </li>
+        ))}
       </ul>
       <div className="header__cart-footing">
-        <h4 className="header__cart-more-item">3 Thêm Hàng Vào Giỏ</h4>
+        <h4 className="header__cart-more-item">
+          Tổng tiền:{' '}
+          {new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+          }).format(priceTotal)}
+        </h4>
         <Button className={classes.btn_more}>Xem giỏ hàng</Button>
       </div>
     </div>

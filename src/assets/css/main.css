@@ -346,7 +346,6 @@
 }
 
 .header__cart-item-img {
-    background-image: url(https://cf.shopee.vn/file/07a4e4ca122ffd5ab5045f391cd046a0_tn);
     background-position: 50%;
     background-size: cover;
     background-repeat: no-repeat;
@@ -380,6 +379,14 @@
     font-size: 1.4rem;
     font-weight: 400;
     color: #ee4d2d;
+}
+
+.header__cart-item-quantity {
+    display: flex;
+    font-size: 1.2rem;
+    margin-top: 5px;
+    color: #949191;
+
 }
 
 .header__cart-footing {

@@ -6,12 +6,12 @@ import ProductDetail from './product/pages/ProductDetail';
 ProductFeature.propTypes = {};
 
 function ProductFeature(props) {
-  const match = useRouteMatch();
+  const { path, url, params } = useRouteMatch();
   return (
     <div>
       <Switch>
-        <Route path={match.url} component={ListProduct} exact />
-        <Route path={`${match.url}/:productId`} component={ProductDetail} />
+        <Route path={path} component={ListProduct} exact />
+        <Route path={`${url}/:productId`} component={ProductDetail} />
       </Switch>
     </div>
   );

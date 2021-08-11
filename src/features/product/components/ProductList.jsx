@@ -1,56 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Product from './Product';
-ProductList.propTypes = {};
+import { Link } from 'react-router-dom';
+ProductList.propTypes = {
+  productList: PropTypes.array,
+};
 
-function ProductList(props) {
+ProductList.defaultProps = {
+  productList: [],
+};
+
+function ProductList({ productList }) {
   return (
     <div className="row">
-      <div className="col l-2-4 m-6 c-12">
-        <Product />
-      </div>
-      <div className="col l-2-4 m-6 c-12">
-        <Product />
-      </div>
-      <div className="col l-2-4 m-6 c-12">
-        <Product />
-      </div>
-      <div className="col l-2-4 m-6 c-12">
-        <Product />
-      </div>
-      <div className="col l-2-4 m-6 c-12">
-        <Product />
-      </div>
-      <div className="col l-2-4 m-6 c-12">
-        <Product />
-      </div>
-      <div className="col l-2-4 m-6 c-12">
-        <Product />
-      </div>
-      <div className="col l-2-4 m-6 c-12">
-        <Product />
-      </div>
-      <div className="col l-2-4 m-6 c-12">
-        <Product />
-      </div>
-      <div className="col l-2-4 m-6 c-12">
-        <Product />
-      </div>
-      <div className="col l-2-4 m-6 c-12">
-        <Product />
-      </div>
-      <div className="col l-2-4 m-6 c-12">
-        <Product />
-      </div>
-      <div className="col l-2-4 m-6 c-12">
-        <Product />
-      </div>
-      <div className="col l-2-4 m-6 c-12">
-        <Product />
-      </div>
-      <div className="col l-2-4 m-6 c-12">
-        <Product />
-      </div>
+      {productList.map((product) => (
+        <div key={product.id} className="col l-2-4 m-6 c-12">
+          <Link to={`/${product.id}`} style={{ textDecoration: 'none', color: 'black' }}>
+            <Product product={product} />
+          </Link>
+        </div>
+      ))}
     </div>
   );
 }

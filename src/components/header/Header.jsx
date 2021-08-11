@@ -24,7 +24,8 @@ import Register from '../../features/auth/register/Register';
 import Cart from '../cart/Cart';
 import Search from '../search/Search';
 import Login from '../../features/auth/login/Login';
-
+import { cartItemsCountSelectors } from '../../features/product/components/shoppingCart/selectors';
+import { useSelector } from 'react-redux';
 Header.propTypes = {};
 const useStyle = makeStyles((theme) => ({
   icon__link: {
@@ -60,6 +61,8 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 function Header(props) {
+  const cartItemsCount = useSelector(cartItemsCountSelectors);
+
   const classes = useStyle();
 
   const [openSignUp, setOpenSignUp] = useState(false);
@@ -99,18 +102,10 @@ function Header(props) {
                 <img src={qrCode} alt="QR Code" className="header__qr-img" />
                 <div className="header__qr-apps">
                   <a href="" className="header__qr-link">
-                    <img
-                      src={googleplay}
-                      alt="Google Play"
-                      className="header__qr-download-img"
-                    />
+                    <img src={googleplay} alt="Google Play" className="header__qr-download-img" />
                   </a>
                   <a href="" className="header__qr-link">
-                    <img
-                      src={appStore}
-                      alt="App Store"
-                      className="header__qr-download-img"
-                    />
+                    <img src={appStore} alt="App Store" className="header__qr-download-img" />
                   </a>
                 </div>
               </div>
@@ -147,10 +142,7 @@ function Header(props) {
             >
               Đăng ký
             </li>
-            <li
-              className="header__navbar-item header__navbar-item--strong"
-              onClick={handleClickOpenLogIn}
-            >
+            <li className="header__navbar-item header__navbar-item--strong" onClick={handleClickOpenLogIn}>
               Đăng nhập
             </li>
 
@@ -221,7 +213,7 @@ function Header(props) {
                                 <img src={no_cart} alt="" className="header__cart-img-no-cart" />
                                 <span className="header__cart-no-cart-msg">Chưa có sản phẩm</span>
                             </div> */}
-              <span className="header__cart-notice">3</span>
+              <span className="header__cart-notice">{cartItemsCount}</span>
               <Cart />
             </div>
           </div>

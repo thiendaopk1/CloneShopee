@@ -55,36 +55,37 @@ const theme = createTheme({
 function ListProduct(props) {
   const history = useHistory();
   const location = useLocation();
-  // const queryParams = useMemo(() => {
-  //   const params = queryString.parse(location.search);
+  const queryParams = useMemo(() => {
+    const params = queryString.parse(location.search);
 
-  //   return {
-  //     ...params,
-  //     _page: Number.parseInt(params._page) || 1,
-  //     _limit: Number.parseInt(params._limit) || 15,
-  //     _sort: params._sort || '_sortBy=pop',
-  //   };
-  // }, [location.search]);
+    return {
+      ...params,
+      _page: Number.parseInt(params._page) || 1,
+      _limit: Number.parseInt(params._limit) || 15,
+      brand: Number.parseInt(params.brand) || 1,
+      _sortBy: params._sortBy || 'ctime',
+    };
+  }, [location.search]);
 
   const [productList, setProductList] = useState([]);
-  console.log('productList', productList);
+
   const [pagination, setPagination] = useState({
-    limit: 15,
-    total: 10,
-    page: 1,
+    _limit: 15,
+    _total: 10,
+    _page: 1,
   });
+
   const [loading, setLoading] = useState([true]);
 
   useEffect(() => {
     (async () => {
       try {
-        // const params2 = { ...queryParams };
+        const params2 = { ...queryParams };
 
-        const rp = await productApi.getAll();
-        // const { data, pagination } = rp;
-        console.log(rp);
-        // console.log('data', data);
-        setProductList(rp);
+        const rp = await productApi.getAll(params2);
+        const { products, pagination } = rp;
+
+        setProductList(products);
 
         setPagination(pagination);
       } catch (error) {
@@ -92,27 +93,70 @@ function ListProduct(props) {
       }
       setLoading(false);
     })();
-  }, []);
+  }, [queryParams]);
+
+  //handle pagination
+  const handlePageChange = (e, page) => {
+    const filters = {
+      ...queryParams,
+      _page: page,
+    };
+    history.push({
+      pathName: history.location.pathName,
+      search: queryString.stringify(filters),
+    });
+  };
+
+  //handle sort
+  const handleSortChange = (newSortValue) => {
+    const filters = {
+      ...queryParams,
+      _sortBy: newSortValue,
+    };
+    history.push({
+      pathName: history.location.pathName,
+      search: queryString.stringify(filters),
+    });
+  };
+
+  // handle filter
+  const handleFilterChange = (newFilter) => {
+    const filters = {
+      ...queryParams,
+      ...newFilter,
+    };
+    history.push({
+      pathName: history.location.pathName,
+      search: queryString.stringify(filters),
+    });
+  };
   const classes = useStyle();
   return (
     <div className="app__container">
       <div className="grid wide content">
         <div className="row">
           <div className="col l-2">
-            <ProductFilter />
+            <ProductFilter filters={queryParams} onChange={handleFilterChange} />
           </div>
           <div className="col l-10">
-            <ProductSort />
-            <ProductList />
+            <ProductSort
+              currentSort={queryParams._sortBy}
+              onChange={handleSortChange}
+              pagination={pagination}
+              onChangePagi={handlePageChange}
+            />
+            <ProductList productList={productList} />
             <div className="product_pagination">
               <ThemeProvider theme={theme}>
                 <Pagination
-                  count={10}
                   shape="rounded"
                   size="large"
-                  selected="true"
+                  // selected="true"
+                  count={Math.ceil(pagination._total / pagination._limit)}
+                  _page={pagination._page}
+                  onChange={handlePageChange}
                   className={classes.root}
-                />
+                ></Pagination>
               </ThemeProvider>
             </div>
           </div>

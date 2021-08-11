@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, makeStyles } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import AddToCartForm from './AddToCartForm';
-ProductInfo.propTypes = {};
+import { addToCart } from './shoppingCart/CartSlice';
+import { useDispatch } from 'react-redux';
+ProductInfo.propTypes = {
+  product: PropTypes.object,
+};
 
 const useStyle = makeStyles((theme) => ({
   rating: {
@@ -19,21 +23,38 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-function ProductInfo(props) {
+function ProductInfo({ product = {} }) {
   const classes = useStyle();
+  const dispatch = useDispatch();
+  const { name, salePrice, price, quantitySold, rate, colors } = product;
+  const [product1, setProduct1] = useState(product);
+  const handleAddtoCart = (data) => {
+    const newProduct = { ...product1 };
+    const res = colors.filter((colors) => colors.id === data.idc);
+    newProduct.colors = res;
+    console.log(newProduct);
+    const action = addToCart({
+      idp: product.id,
+      idc: data.idc,
+      newProduct,
+      quantity: data.quantity,
+    });
+    dispatch(action);
+  };
+
   return (
     <div className="product__info">
       <div className="product__info-app">
         <div className="product__name">
           <div className="product__name-favorite">Yêu thích</div>
-          <span>GĂNG TAY CAO SU SIÊU DAI HÌNH HƯƠU HẠC</span>
+          <span>{name}</span>
         </div>
         <div className="product__review">
           <div className="product__review-rated">
-            <div className="product__review-number">4.9</div>
+            <div className="product__review-number">1.2</div>
             <Rating
               name="half-rating-read"
-              value={5}
+              value={rate}
               precision={0.1}
               readOnly
               className={classes.rating}
@@ -44,16 +65,26 @@ function ProductInfo(props) {
             <div className="product__review-reviewed-label">Đánh giá</div>
           </div>
           <div className="product__review-sold">
-            <div className="product__review-sold-number">8.1k</div>
+            <div className="product__review-sold-number">{quantitySold}</div>
             <div className="product__review-sold-label">Đã bán</div>
           </div>
         </div>
         <div className="product__prices">
           <div className="product__prices-flex">
-            <div className="product__prices-originalPrices">₫25.000</div>
+            <div className="product__prices-originalPrices">
+              {new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND',
+              }).format(price)}
+            </div>
             <div className="product__prices-center">
-              <div className="product__prices-salePrices">9.000</div>
-              <div className="product__prices-promotion">64% giảm</div>
+              <div className="product__prices-salePrices">
+                {new Intl.NumberFormat('vi-VN', {
+                  style: 'currency',
+                  currency: 'VND',
+                }).format(salePrice)}
+              </div>
+              <div className="product__prices-promotion">{rate}% giảm</div>
             </div>
           </div>
         </div>
@@ -95,28 +126,9 @@ function ProductInfo(props) {
                           y1="9.8"
                           y2="9.8"
                         ></line>
-                        <circle
-                          cx="3"
-                          cy="11.2"
-                          fill="none"
-                          r="2"
-                          stroke-miterlimit="10"
-                        ></circle>
-                        <circle
-                          cx="10"
-                          cy="11.2"
-                          fill="none"
-                          r="2"
-                          stroke-miterlimit="10"
-                        ></circle>
-                        <line
-                          fill="none"
-                          stroke-miterlimit="10"
-                          x1="10.5"
-                          x2="14.4"
-                          y1="7.3"
-                          y2="7.3"
-                        ></line>
+                        <circle cx="3" cy="11.2" fill="none" r="2" stroke-miterlimit="10"></circle>
+                        <circle cx="10" cy="11.2" fill="none" r="2" stroke-miterlimit="10"></circle>
+                        <line fill="none" stroke-miterlimit="10" x1="10.5" x2="14.4" y1="7.3" y2="7.3"></line>
                         <polyline
                           fill="none"
                           points="1.5 9.8 .5 9.8 .5 1.8 10 1.8 10 9.1"
@@ -134,9 +146,7 @@ function ProductInfo(props) {
                   </div>
                   <div className="product__delivery-prices-address">
                     <div className="product__delivery-transport-to">
-                      <div className="product__delivery-transport-label">
-                        Vận chuyển tới
-                      </div>
+                      <div className="product__delivery-transport-label">Vận chuyển tới</div>
                       <div className="product__delivery-transport-address">
                         <span className="address">Hồ Chí Minh</span>
                         <ExpandMoreIcon className={classes.iconDown} />
@@ -152,26 +162,14 @@ function ProductInfo(props) {
                             <div className="product__delivery-detail-info">
                               <div className="product__delivery-detail-pirce">
                                 <div className="product__delivery-detail-type">Nhanh</div>
-                                <div className="product__delivery-detail-money">
-                                  22.000
-                                </div>
+                                <div className="product__delivery-detail-money">22.000</div>
                               </div>
-                              <div className="product__delivery-detail-date">
-                                Giao hàng từ 2-24 ngày
-                              </div>
+                              <div className="product__delivery-detail-date">Giao hàng từ 2-24 ngày</div>
                               <div className="product__delivery-detail-infos">
-                                <span className="product__delivery-detail-info-1">
-                                  Miễn Phí Vận Chuyển
-                                </span>{' '}
+                                <span className="product__delivery-detail-info-1">Miễn Phí Vận Chuyển</span>{' '}
                                 cho đơn hàng từ{' '}
-                                <span className="product__delivery-detail-info-1">
-                                  ₫50.000
-                                </span>{' '}
-                                (giảm tối đa{' '}
-                                <span className="product__delivery-detail-info-1">
-                                  ₫25.000
-                                </span>
-                                )
+                                <span className="product__delivery-detail-info-1">₫50.000</span> (giảm tối đa{' '}
+                                <span className="product__delivery-detail-info-1">₫25.000</span>)
                               </div>
                             </div>
                           </div>
@@ -185,10 +183,18 @@ function ProductInfo(props) {
           </div>
         </div>
         <div className="product__action">
-          <AddToCartForm />
+          <AddToCartForm colors={colors} onSubmit={handleAddtoCart} />
         </div>
         <div className="product__more">
-          <a href=""></a>
+          <a href="" className="product__more-1">
+            <img
+              src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/assets/67454c89080444c5997b53109072c9e0.png"
+              alt=""
+              className="img"
+            />
+            <span className="more1">Shopee Đảm Bảo</span>
+            <span className="more2">3 Ngày Trả Hàng / Hoàn Tiền</span>
+          </a>
         </div>
       </div>
     </div>
