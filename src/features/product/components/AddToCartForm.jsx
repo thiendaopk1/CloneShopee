@@ -9,12 +9,12 @@ import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import ProductType from './ProductType';
 import classNames from 'classnames';
 import { useState } from 'react';
+import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 AddToCartForm.propTypes = {
   colors: PropTypes.array,
-  onSubmit: PropTypes.func,
+  onSubmit1: PropTypes.func,
 };
 const useStyle = makeStyles((theme) => ({
-
   btn1: {
     '&.MuiButton-root': {
       padding: '10px',
@@ -69,14 +69,33 @@ function AddToCartForm({ colors, onSubmit = null }) {
     resolver: yupResolver(schema),
   });
 
+  // const location = useLocation();
+  // const history = useHistory();
+  // const match = useRouteMatch();
+
+  // const handleSubmitBuyNow = async (values) => {
+  //   const data = {
+  //     quantity: values.quantity,
+  //     idc: active,
+  //   };
+  //   if (data.idc === 0) {
+  //     return;
+  //   } else {
+  //     if (onSubmit) {
+  //       await onSubmit(data);
+  //     }
+  //   }
+  //   history.push('/cart');
+  // };
+
   const handleSubmit = async (values) => {
     // if (!isLoggedIn) {
     //   return;
     // } else {
     const data = {
       quantity: values.quantity,
-      idc: active
-    }
+      idc: active,
+    };
     if (data.idc === 0) {
       return;
     } else {
@@ -89,7 +108,7 @@ function AddToCartForm({ colors, onSubmit = null }) {
 
   return (
     <div>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="quantity__form" >
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="quantity__form">
         <div className="product__type">
           <label className="product__type-label">Màu sắc</label>
           <ul className="product__type-list">
@@ -117,7 +136,9 @@ function AddToCartForm({ colors, onSubmit = null }) {
             <AddShoppingCartIcon className={classes.icon} />
             Thêm vào giỏ hàng
           </Button>
-          {/* <Button className={classes.btn2} type="submit">Mua ngay</Button> */}
+          {/* <Button className={classes.btn2} onSubmit={handleSubmitBuyNow}>
+            Mua ngay
+          </Button> */}
         </div>
       </form>
     </div>

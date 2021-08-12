@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 function QuantityCart(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { form, id1, id2, name, label, disabled } = props;
+  const { form, idp, idc, name, label, disabled } = props;
   const { errors, setValue } = form;
   const hasError = !!errors[name];
   return (
@@ -68,8 +68,8 @@ function QuantityCart(props) {
                     setValue(name, Number.parseInt(value) ? Number.parseInt(value) - 1 : 1);
                     dispatch(
                       setQuantity({
-                        id1,
-                        id2,
+                        idp,
+                        idc,
                         quantity: value ? value - 1 : 1,
                       }),
                     );
@@ -87,8 +87,8 @@ function QuantityCart(props) {
                 onBlur={() => {
                   dispatch(
                     setQuantity({
-                      id1,
-                      id2,
+                      idp,
+                      idc,
                       quantity: value,
                     }),
                   );
@@ -102,8 +102,8 @@ function QuantityCart(props) {
                     setValue(name, Number.parseInt(value) ? Number.parseInt(value) + 1 : 1);
                     dispatch(
                       setQuantity({
-                        id1,
-                        id2,
+                        idp,
+                        idc,
                         quantity: value ? value + 1 : 1,
                       }),
                     );

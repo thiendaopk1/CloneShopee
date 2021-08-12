@@ -232,6 +232,7 @@
 
 .header__logo {
     width: 200px;
+    cursor: pointer;
 }
 
 .header__logo-img {
@@ -253,6 +254,7 @@
 .header__cart {
     width: 150px;
     text-align: center;
+    z-index: 2;
 }
 
 .header__cart-wrap {

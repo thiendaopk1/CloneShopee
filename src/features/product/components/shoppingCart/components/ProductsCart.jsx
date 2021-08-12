@@ -14,7 +14,9 @@ function ProductsCart({ products }) {
   return (
     <div className="shopping__cart-list">
       {products.map((product) => (
-        <ProductCartDetail product={product} />
+        <div key={(product.idp, product.idc)}>
+          <ProductCartDetail product={product} />
+        </div>
       ))}
     </div>
   );

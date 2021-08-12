@@ -5,6 +5,7 @@ import no_cart from '../../assets/images/no_cart.png';
 import { Button, makeStyles } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { cartTotalCountSelectors } from '../../features/product/components/shoppingCart/selectors';
+import { useHistory } from 'react-router-dom';
 Cart.propTypes = {};
 
 const useStyle = makeStyles((theme) => ({
@@ -26,10 +27,14 @@ const useStyle = makeStyles((theme) => ({
 
 function Cart(props) {
   const classes = useStyle();
-
+  const history = useHistory();
+  const handleClickCart = () => {
+    history.push('/cart');
+  };
   const products = useSelector((state) => {
     return state.cart.cartItems;
   });
+
   const priceTotal = useSelector(cartTotalCountSelectors);
 
   return (
@@ -62,7 +67,9 @@ function Cart(props) {
             currency: 'VND',
           }).format(priceTotal)}
         </h4>
-        <Button className={classes.btn_more}>Xem giỏ hàng</Button>
+        <Button className={classes.btn_more} onClick={handleClickCart}>
+          Xem giỏ hàng
+        </Button>
       </div>
     </div>
   );

@@ -3,21 +3,35 @@ import PropTypes from 'prop-types';
 import { setQuantity, removeFromCart } from '../CartSlice';
 import { useDispatch } from 'react-redux';
 import ProductQuantity from './ProductQuantity';
-import { Button } from '@material-ui/core';
+import { Button, makeStyles } from '@material-ui/core';
 ProductCartDetail.propTypes = {
   product: PropTypes.object,
 };
-
+const useStyle = makeStyles((theme) => ({
+  btn: {
+    '&.MuiButton-root': {
+      background: '0',
+      border: 'none',
+      color: ' #222222',
+      textTransform: 'capitalize',
+      fontSize: '14px',
+      '&:hover': {
+        color: '#ee4d2d',
+      },
+    },
+  },
+}));
 function ProductCartDetail({ product }) {
-  const { newProduct, quantity, idc } = product;
+  const classes = useStyle();
+  const { newProduct, quantity, idc, idp } = product;
   const quantityItem = product.quantity;
   const dispatch = useDispatch();
 
   const handleOnChange = ({ quantity }) => {
     const action = setQuantity({
-      idp: newProduct.id,
+      idp,
       idc,
-      quantityItem,
+      quantity,
       newProduct,
     });
     dispatch(action);
@@ -25,7 +39,8 @@ function ProductCartDetail({ product }) {
 
   const handleClickRemove = ({ cartItems }) => {
     const action = removeFromCart({
-      idp: product.id,
+      idp,
+      idc,
     });
     dispatch(action);
   };
@@ -54,17 +69,19 @@ function ProductCartDetail({ product }) {
           </span>
         </div>
         <div className="shopping__cart-product-quantity">
-          <ProductQuantity quantityItem={quantityItem} idp={newProduct.id} handleOnChange={handleOnChange} />
+          <ProductQuantity quantityItem={quantityItem} idc={idc} idp={idp} handleOnChange={handleOnChange} />
         </div>
         <div className="shopping__cart-product-totalPrice">
           <span className="shopping__cart-product-totalPrices">
             {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
-              newProduct.salePrice * quantity,
+              newProduct.salePrice * quantityItem,
             )}
           </span>
         </div>
         <div className="shopping__cart-product-delete">
-          <Button>Xóa</Button>
+          <Button onClick={handleClickRemove} className={classes.btn}>
+            Xóa
+          </Button>
         </div>
       </div>
     </div>

@@ -1,5 +1,8 @@
+/* shopping cart header */
+
 .shopping__cart {
     background-color: #f5f5f5;
+    height: 100%;
 }
 
 .shopping-conten {
@@ -51,6 +54,8 @@
     width: 16.70417%;
     text-align: center;
 }
+
+/* shopping cart main */
 
 .shopping__cart-main {
     box-shadow: 0 1px 1px 0 rgb(0 0 0 / 5%);
@@ -176,4 +181,76 @@
     justify-content: center;
     width: calc(12.70417% + 58px);
     text-transform: capitalize;
+}
+
+/* shopping cart footer */
+
+.shopping__cart-footer {
+    box-shadow: 0 1px 1px 0 rgb(0 0 0 / 5%);
+    border-radius: 2px;
+    background: #fff;
+    margin-bottom: 15px;
+    overflow: visible;
+    width: 100%;
+    box-sizing: border-box;
+    align-items: center;
+    
+}
+
+.shopping__cart-footer-box {
+    padding: 12px 0;
+    display: flex;
+    align-items: center;
+    justify-content: stretch;
+    flex: 1;
+    width: 100%;
+    font-size: 1.6rem;
+    line-height: 1.6rem;
+    color: #222222;
+}
+
+.shopping__cart-footer-deleteAll {
+    width: 9.7%;
+    display: flex;
+    justify-content: center;
+}
+
+.shopping__cart-footer-favorite {
+    width: 16.7%;
+}
+
+.shopping__cart-footer-favorite-label {
+    color: #ee4d2d;
+    margin: 0 8px;
+    max-width: 168px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}
+
+.shopping__cart-footer-price {
+    flex: 1;
+}
+
+.shopping__cart-footer-price1 {
+    display: flex;
+    float: right;
+}
+
+.shopping__cart-footer-price-label {
+    line-height: 30px;
+}
+
+.shopping__cart-footer-totalPrice {
+    font-size: 24px;
+    line-height: 28px;
+    margin-left: 5px;
+    color: #ee4d2d;
+}
+
+.shopping__cart-footer-checkOut {
+    width: 21%;
+    display: flex;
+    justify-content: center;
 }

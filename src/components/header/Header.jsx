@@ -26,6 +26,7 @@ import Search from '../search/Search';
 import Login from '../../features/auth/login/Login';
 import { cartItemsCountSelectors } from '../../features/product/components/shoppingCart/selectors';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 Header.propTypes = {};
 const useStyle = makeStyles((theme) => ({
   icon__link: {
@@ -61,6 +62,15 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 function Header(props) {
+  const history = useHistory();
+  const handleClickHome = () => {
+    history.push('/');
+  };
+
+  const handleClickCart = () => {
+    history.push('/cart');
+  };
+
   const cartItemsCount = useSelector(cartItemsCountSelectors);
 
   const classes = useStyle();
@@ -193,7 +203,7 @@ function Header(props) {
         </nav>
         {/* header-with-searh */}
         <div className="header-with-search">
-          <div className="header__logo">
+          <div className="header__logo" onClick={handleClickHome}>
             <svg viewBox="0 0 192 65" class="header__logo-img">
               <g fill-rule="evenodd">
                 <path
@@ -207,7 +217,7 @@ function Header(props) {
           <Search />
 
           <div className="header__cart">
-            <div className="header__cart-wrap">
+            <div className="header__cart-wrap" onClick={handleClickCart}>
               <ShoppingCartIcon className={classes.cart_icon} />
               {/* <div className="header__cart-list header__cart-no-cart">
                                 <img src={no_cart} alt="" className="header__cart-img-no-cart" />
