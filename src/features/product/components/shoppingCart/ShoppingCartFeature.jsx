@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ProductsCart from './components/ProductsCart';
 import { removeAll } from './CartSlice';
 import { cartTotalCountSelectors } from './selectors';
+import { useHistory } from 'react-router-dom';
 ShoppingCartFeature.propTypes = {};
 
 const useStyle = makeStyles((theme) => ({
@@ -43,6 +44,12 @@ function ShoppingCartFeature(props) {
 
   const dispatch = useDispatch();
   const cartTotal = useSelector(cartTotalCountSelectors);
+  const history = useHistory();
+
+  const handleCheckOut = () => {
+    history.push('/checkout');
+  };
+
   const products = useSelector((state) => {
     return state.cart.cartItems;
   });
@@ -101,7 +108,9 @@ function ShoppingCartFeature(props) {
                   </div>
                 </div>
                 <div className="shopping__cart-footer-checkOut">
-                  <Button className={classes.btn2}>Mua hàng</Button>
+                  <Button className={classes.btn2} onClick={handleCheckOut}>
+                    Mua hàng
+                  </Button>
                 </div>
               </div>
             </div>

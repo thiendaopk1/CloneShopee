@@ -69,17 +69,14 @@ function LoginForm(props) {
   };
   const classes = useStyles();
   const schema = yup.object().shape({
-    email: yup
-      .string()
-      .required('please enter your email')
-      .email('please enter a valid email address'),
+    email: yup.string().required('please enter your email').email('please enter a valid email address'),
     password: yup
       .string()
       .required('please enter your password')
-      .matches(
-        '(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{4,}',
-        'Password must contain at least 8 characters, including upper case letters, lower case letters, numbers and a special character',
-      ),
+      .matches
+      // '(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{4,}',
+      // 'Password must contain at least 8 characters, including upper case letters, lower case letters, numbers and a special character',
+      (),
   });
   const form = useForm({
     defaultValues: {
@@ -90,6 +87,7 @@ function LoginForm(props) {
   });
 
   const handleSubmit = async (values) => {
+    console.log('values', values);
     const onSubmit1 = props.onSubmit;
     await onSubmit1(values);
   };
@@ -104,20 +102,13 @@ function LoginForm(props) {
       <form onSubmit={form.handleSubmit(handleSubmit)}>
         <InputField name="email" label="Email" form={form} />
         <PasswordField name="password" label="Password" form={form} />
-        <FormControlLabel
-          control={<Checkbox value="remember" color="primary" />}
-          label="Remember me"
-        />
+        <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
         <Button type="submit" className={classes.submit} variant="contained" fullWidth>
           Đăng nhập
         </Button>
         <Grid container>
           <Grid item xs>
-            <Button
-              onClick={handleClickOpen}
-              style={{ marginRight: 24 }}
-              className={classes.link}
-            >
+            <Button onClick={handleClickOpen} style={{ marginRight: 24 }} className={classes.link}>
               Quên mật khẩu?
             </Button>
           </Grid>

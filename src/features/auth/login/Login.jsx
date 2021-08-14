@@ -26,9 +26,11 @@ function Login(props) {
     (async () => {
       try {
         const action = login(values);
+        console.log('action', action);
         const resultAction = await dispath(action);
+        console.log('resultAction', resultAction);
         const user = unwrapResult(resultAction);
-
+        console.log('user', user);
         //gọi api
         // const { items } = await cartApi.getAll();
         // dispath(setCart(items));
@@ -45,7 +47,7 @@ function Login(props) {
   };
   return (
     <div>
-      <LoginForm onSubmit={handleSubmit} />
+      <LoginForm onSubmit={handleSubmit} onClose={oncloseLogin} opendangky={openFormRegister} />
     </div>
   );
 }

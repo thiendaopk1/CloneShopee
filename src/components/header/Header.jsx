@@ -25,8 +25,9 @@ import Cart from '../cart/Cart';
 import Search from '../search/Search';
 import Login from '../../features/auth/login/Login';
 import { cartItemsCountSelectors } from '../../features/product/components/shoppingCart/selectors';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { logout } from '../../features/auth/userSlice';
 Header.propTypes = {};
 const useStyle = makeStyles((theme) => ({
   icon__link: {
@@ -61,7 +62,84 @@ const useStyle = makeStyles((theme) => ({
     color: theme.palette.grey[500],
   },
 }));
+
+const MODE = {
+  LOGIN: 'login',
+  REGISTER: 'register',
+};
+
 function Header(props) {
+  const classes = useStyle();
+  //check isLogin
+  const loggedInUser = useSelector((state) => state.user.current);
+  const isLoggedIn = !!loggedInUser.id;
+
+  //logOut
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    (async () => {
+      try {
+        const action = logout();
+        dispatch(action);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  };
+
+  // form đăng ký
+  const [openSignUp, setOpenSignUp] = useState(false);
+
+  const [mode, setMode] = useState(MODE.REGISTER);
+
+  const handleClickOpenSignUp = () => {
+    setOpenSignUp(true);
+    setOpenLogIn(false);
+  };
+
+  const handleCloseSignUp = () => {
+    setOpenSignUp(false);
+  };
+
+  //from đăng nhập
+  const [openLogIn, setOpenLogIn] = useState(false);
+
+  const handleClickOpenLogIn = () => {
+    setOpenLogIn(true);
+  };
+
+  const handleCloseLogIn = () => {
+    setOpenLogIn(false);
+  };
+  //form quên mật khẩu
+  const [openForgotPass, setOpenForgotPass] = useState(false);
+
+  const handleClickOpenForgotPass = () => {
+    setOpenForgotPass(true);
+    setOpenLogIn(false);
+  };
+
+  const handleCloseForgotPass = () => {
+    setOpenForgotPass(false);
+  };
+  // from đổi mật khẩu
+  const [openChangePass, setOpenChangePass] = useState(false);
+
+  const handleClickOpenChangePass = () => {
+    setOpenChangePass(true);
+    setOpenForgotPass(false);
+  };
+
+  const handleCloseChangePass = () => {
+    setOpenChangePass(false);
+    setOpenLogIn(true);
+  };
+
+  //
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
   const history = useHistory();
   const handleClickHome = () => {
     history.push('/');
@@ -72,29 +150,6 @@ function Header(props) {
   };
 
   const cartItemsCount = useSelector(cartItemsCountSelectors);
-
-  const classes = useStyle();
-
-  const [openSignUp, setOpenSignUp] = useState(false);
-  const [openLogIn, setOpenLogIn] = useState(false);
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-
-  const handleClickOpenSignUp = () => {
-    setOpenSignUp(true);
-  };
-
-  const handleClickOpenLogIn = () => {
-    setOpenLogIn(true);
-  };
-
-  const handleCloseSignUp = () => {
-    setOpenSignUp(false);
-  };
-
-  const handleCloseLogIn = () => {
-    setOpenLogIn(false);
-  };
   return (
     <div className="header">
       <div className="grid">
@@ -145,7 +200,8 @@ function Header(props) {
             </li>
 
             {/* chua dang nhap */}
-
+            {/* {!isLoggedIn && (
+              <> */}
             <li
               className="header__navbar-item header__navbar-item--strong header__navbar-item--sperate"
               onClick={handleClickOpenSignUp}
@@ -155,50 +211,47 @@ function Header(props) {
             <li className="header__navbar-item header__navbar-item--strong" onClick={handleClickOpenLogIn}>
               Đăng nhập
             </li>
+            {/* </>
+            )} */}
 
             {/* da dang nhap */}
-
-            {/* <li className="header__navbar-item header__navbar-user">
-              <div className="header__navbar-user-avatar">
-                <div className="header__navbar-user-img">
-                  <svg
-                    enable-background="new 0 0 15 15"
-                    viewBox="0 0 15 15"
-                    x="0"
-                    y="0"
-                    class="header__navbar-user-img--icon"
-                  >
-                    <g>
-                      <circle
-                        cx="7.5"
-                        cy="4.5"
-                        fill="none"
-                        r="3.8"
-                        stroke-miterlimit="10"
-                      ></circle>
-                      <path
-                        d="m1.5 14.2c0-3.3 2.7-6 6-6s6 2.7 6 6"
-                        fill="none"
-                        stroke-linecap="round"
-                        stroke-miterlimit="10"
-                      ></path>
-                    </g>
-                  </svg>
+            {/* {isLoggedIn && (
+              <li className="header__navbar-item header__navbar-user">
+                <div className="header__navbar-user-avatar">
+                  <div className="header__navbar-user-img">
+                    <svg
+                      enable-background="new 0 0 15 15"
+                      viewBox="0 0 15 15"
+                      x="0"
+                      y="0"
+                      class="header__navbar-user-img--icon"
+                    >
+                      <g>
+                        <circle cx="7.5" cy="4.5" fill="none" r="3.8" stroke-miterlimit="10"></circle>
+                        <path
+                          d="m1.5 14.2c0-3.3 2.7-6 6-6s6 2.7 6 6"
+                          fill="none"
+                          stroke-linecap="round"
+                          stroke-miterlimit="10"
+                        ></path>
+                      </g>
+                    </svg>
+                  </div>
                 </div>
-              </div>
-              <span className="header__navbar-user-name">DaoTriThien</span>
-              <ul className="header__navbar-user-menu">
-                <li className="header__navbar-user-item">
-                  <a href="">Tài Khoảng của tôi</a>
-                </li>
-                <li className="header__navbar-user-item">
-                  <a href="">Đơn mua</a>
-                </li>
-                <li className="header__navbar-user-item">
-                  <a href="">Đăng xuất</a>
-                </li>
-              </ul>
-            </li> */}
+                <span className="header__navbar-user-name">DaoTriThien</span>
+                <ul className="header__navbar-user-menu">
+                  <li className="header__navbar-user-item">
+                    <a href="">Tài Khoảng của tôi</a>
+                  </li>
+                  <li className="header__navbar-user-item">
+                    <a href="">Đơn mua</a>
+                  </li>
+                  <li className="header__navbar-user-item">
+                    <a href="">Đăng xuất</a>
+                  </li>
+                </ul>
+              </li>
+            )} */}
           </ul>
         </nav>
         {/* header-with-searh */}
@@ -242,7 +295,16 @@ function Header(props) {
           <Close />
         </IconButton>
         <DialogContent>
-          <Register />
+          {mode === MODE.REGISTER && (
+            <>
+              <Register closeDialog={handleCloseSignUp} />
+            </>
+          )}
+          {mode === MODE.LOGIN && (
+            <>
+              <Login closeDialog={handleCloseSignUp} />
+            </>
+          )}
         </DialogContent>
       </Dialog>
       {/* end form đăng ký */}
@@ -260,7 +322,11 @@ function Header(props) {
           <Close />
         </IconButton>
         <DialogContent>
-          <Login />
+          <Login
+            closeDialog={handleCloseLogIn}
+            openForgot={handleClickOpenForgotPass}
+            openRegister={handleClickOpenSignUp}
+          />
         </DialogContent>
       </Dialog>
       {/* end form đăng nhập */}

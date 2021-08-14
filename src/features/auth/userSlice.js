@@ -11,7 +11,6 @@ export const register = createAsyncThunk('user/register', async (payload) => {
 
   return data.user;
 });
-
 export const login = createAsyncThunk('user/login', async (payload) => {
   const data = await userApi.login(payload);
 
@@ -21,7 +20,21 @@ export const login = createAsyncThunk('user/login', async (payload) => {
 
   return data.user;
 });
+export const forgotPassword = createAsyncThunk('user/forgotPassword', async (payload) => {
+  // localStorage.setItem(StorageKeys.TOKEN,{});
+  // localStorage.setItem(StorageKeys.USER,{});
+  const data = await userApi.forgotPassword(payload);
+  return data;
+});
+export const changePassword = createAsyncThunk('user/changePassword', async (payload) => {
+  const data = await userApi.changePassword(payload);
 
+  // luu data vao localStorage
+  // localStorage.setItem(StorageKeys.TOKEN,data.jwt);
+  // localStorage.setItem(StorageKeys.USER,JSON.stringify(data.user));
+
+  return data;
+});
 const userSlice = createSlice({
   name: 'user',
   initialState: {
@@ -30,7 +43,7 @@ const userSlice = createSlice({
   },
   //
   reducers: {
-    login(state) {
+    logout(state) {
       localStorage.removeItem(StorageKeys.USER);
       localStorage.removeItem(StorageKeys.TOKEN);
       state.current = {};
@@ -41,6 +54,12 @@ const userSlice = createSlice({
       state.current = action.payload;
     },
     [login.fulfilled]: (state, action) => {
+      state.current = action.payload;
+    },
+    [forgotPassword.fulfilled]: (state, action) => {
+      state.current = action.payload;
+    },
+    [changePassword.fulfilled]: (state, action) => {
       state.current = action.payload;
     },
   },

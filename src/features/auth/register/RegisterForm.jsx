@@ -38,17 +38,10 @@ function RegisterForm(props) {
     fullName: yup
       .string()
       .required('please enter your full name')
-      .test(
-        'should has at least two words',
-        'please enter at least two words',
-        (value) => {
-          return value.split(' ').length >= 2;
-        },
-      ),
-    email: yup
-      .string()
-      .required('please enter your email')
-      .email('please enter a valid email address'),
+      .test('should has at least two words', 'please enter at least two words', (value) => {
+        return value.split(' ').length >= 2;
+      }),
+    email: yup.string().required('please enter your email').email('please enter a valid email address'),
     password: yup
       .string()
       .required('please enter your password')
@@ -80,6 +73,7 @@ function RegisterForm(props) {
   });
 
   const handleSubmit = async (values) => {
+    console.log('values', values);
     const { onSubmit } = props;
     if (onSubmit) {
       await onSubmit(values);
