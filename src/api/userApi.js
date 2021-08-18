@@ -11,7 +11,7 @@ const userApi = {
   login(data) {
     // path den api dang nhap
     const url = '/api/login';
-    return axiosClient.get(url, data);
+    return axiosClient.post(url, data);
   },
 };
 

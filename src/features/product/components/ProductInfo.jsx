@@ -32,7 +32,6 @@ function ProductInfo({ product = {} }) {
     const newProduct = { ...product1 };
     const res = colors.filter((colors) => colors.id === data.idc);
     newProduct.colors = res;
-    console.log(newProduct);
     const action = addToCart({
       idp: product.id,
       idc: data.idc,

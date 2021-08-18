@@ -8,6 +8,7 @@ import ProductFeature from './features/index';
 import ProductDetail from './features/product/pages/ProductDetail';
 import ShoppingCartFeature from './features/product/components/shoppingCart/ShoppingCartFeature';
 import CheckOutFeature from './features/checkout/CheckOutFeature';
+import UserFeature from './features/user/UserFeature';
 function App() {
   // const { params, path, url } = useRouteMatch();
   // console.log(path);
@@ -22,6 +23,7 @@ function App() {
         <Route path="/" component={ProductFeature} exact />
         <Route path={`/cart`} component={ShoppingCartFeature} exact />
         <Route path={`/checkout`} component={CheckOutFeature} exact />
+        <Route path={`/user`} component={UserFeature} />
         <Route path={`/:productId`} component={ProductDetail} exact />
       </Switch>
     </div>

@@ -1,0 +1,201 @@
+/*  */
+.user__container {
+    padding: 20px 0 50px
+}
+/* user menu */
+.user__menu {
+    display: block;
+    flex-shrink: 0;
+}
+
+.user__userName {}
+
+.menu__list {
+   list-style: none;
+   padding: 0;
+   margin: 27px 0 0;
+   cursor: pointer;
+}
+
+
+/* user control */
+.user__content {
+    margin-left: 27px;
+}
+/* editInfo control */
+.user__info {
+    padding: 0 30px 20px;
+}
+.user__info-header {
+    border-bottom: 1px solid #efefef;
+    padding: 18px 0px
+}
+
+.user__info-header-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 25px;
+    text-transform: capitalize;
+    color: #333;
+}
+
+.user__info-header-subtitle {
+    margin-top: 3px;
+    font-size: 14px;
+    line-height: 18px;
+    color: #555;
+}
+
+.user__info-main {
+    padding-top: 30px;
+}
+
+.user__info-item {
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.user__info-label {
+    width: 15%;
+    text-align: right;
+    color: rgba(85,85,85,.8);
+    text-transform: capitalize;
+    overflow: hidden;
+    font-size: 15px;
+}
+
+.user__info-username {
+    width: 85%;
+    padding-left: 20px;
+    font-size: 15px;
+    color: #333333;
+}
+
+.user__info-btn {
+    margin-bottom: 60px;
+    padding-left: calc(15% + 20px);
+}
+/* address control */
+.user__address {
+    display: flex;
+    flex-direction: column;
+    padding: 0 30px 20px;
+    background: #fff;
+    overflow: visible;
+}
+
+.user__address-header {
+    align-items: center;
+    border-bottom: 1px solid #efefef;
+    padding: 22px 0;
+    height: 80px;
+    box-sizing: border-box;
+    display: flex;
+}
+
+.user__address-header-label {
+    flex: 1;
+    font-size: 20px;
+    line-height: 20px;
+    font-weight: 500;
+    color: #333;
+    text-transform: capitalize;
+}
+
+.user__address-header-btnNewAddress {
+    margin-left: 10px;
+}
+
+.user__address-content {
+    background-color: #fff;
+    display: flex;
+    padding: 30px 3px 30px 20px;
+    min-height: 100px;
+    justify-content: space-around;
+    border-bottom: 1px solid #efefef;
+
+}
+
+.user__address-content-left {
+    flex: 1;
+}
+
+.user__address-content-buttons {
+    display: flex;
+    width: 220px;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.user__address-name {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.user__address-phone {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.user__address-address {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start;
+    /* align-items: center; */
+}
+
+.user__address-label {
+    margin-right: 20px;
+    text-transform: capitalize;
+    width: 160px;
+    text-align: right;
+    color: rgba(85,85,85,.8);
+    font-size: 14px;
+}
+
+.user__address-contentDetail {
+    display: flex;
+    max-width: 500px;
+    align-items: center;
+    color: #333;
+    font-size: 17px;
+}
+
+.user__address-contentDetail-text {
+    display: inline-block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-right: 10px;
+    max-width: 350px;
+    color: rgba(0,0,0,.8);
+    font-weight: 400;
+    font-size: 17px;
+}
+
+.user__address-contentDetail-default {
+    display: inline-block;
+    background: #00bfa5;
+    color: #fff;
+    border-radius: 3px;
+    padding: 3px 7px 4px;
+    text-transform: capitalize;
+    font-size: 13px;
+    font-weight: 500;
+    width: auto;
+    white-space: nowrap;
+    margin-right: 12px;
+}
+
+.user__address-btn {
+    display: flex;
+    margin: 8px 0;
+    justify-content: flex-end;
+}
+/* purchase control */

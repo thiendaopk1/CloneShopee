@@ -28,6 +28,8 @@ import { cartItemsCountSelectors } from '../../features/product/components/shopp
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { logout } from '../../features/auth/userSlice';
+import { removeAll } from '../../features/product/components/shoppingCart/CartSlice';
+import cartApi from '../../api/cartApi';
 Header.propTypes = {};
 const useStyle = makeStyles((theme) => ({
   icon__link: {
@@ -76,11 +78,20 @@ function Header(props) {
 
   //logOut
   const dispatch = useDispatch();
+  const products = useSelector((state) => {
+    return state.cart.cartItems;
+  });
+
+  const data1 = JSON.parse(localStorage.getItem('cart'));
 
   const handleLogout = () => {
     (async () => {
       try {
+        const thien = { cartItems: data1 };
+        await cartApi.add(thien);
         const action = logout();
+        const action1 = removeAll();
+        dispatch(action1);
         dispatch(action);
       } catch (error) {
         console.log(error);
@@ -200,22 +211,25 @@ function Header(props) {
             </li>
 
             {/* chua dang nhap */}
-            {/* {!isLoggedIn && (
-              <> */}
-            <li
-              className="header__navbar-item header__navbar-item--strong header__navbar-item--sperate"
-              onClick={handleClickOpenSignUp}
-            >
-              Đăng ký
-            </li>
-            <li className="header__navbar-item header__navbar-item--strong" onClick={handleClickOpenLogIn}>
-              Đăng nhập
-            </li>
-            {/* </>
-            )} */}
+            {!isLoggedIn && (
+              <>
+                <li
+                  className="header__navbar-item header__navbar-item--strong header__navbar-item--sperate"
+                  onClick={handleClickOpenSignUp}
+                >
+                  Đăng ký
+                </li>
+                <li
+                  className="header__navbar-item header__navbar-item--strong"
+                  onClick={handleClickOpenLogIn}
+                >
+                  Đăng nhập
+                </li>
+              </>
+            )}
 
             {/* da dang nhap */}
-            {/* {isLoggedIn && (
+            {isLoggedIn && (
               <li className="header__navbar-item header__navbar-user">
                 <div className="header__navbar-user-avatar">
                   <div className="header__navbar-user-img">
@@ -246,12 +260,12 @@ function Header(props) {
                   <li className="header__navbar-user-item">
                     <a href="">Đơn mua</a>
                   </li>
-                  <li className="header__navbar-user-item">
+                  <li className="header__navbar-user-item" onClick={handleLogout}>
                     <a href="">Đăng xuất</a>
                   </li>
                 </ul>
               </li>
-            )} */}
+            )}
           </ul>
         </nav>
         {/* header-with-searh */}

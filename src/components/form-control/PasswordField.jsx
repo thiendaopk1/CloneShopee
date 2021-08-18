@@ -43,11 +43,7 @@ function PasswordField(props) {
           disableUnderline
           endAdornment={
             <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={toggleShowPassword}
-                edge="end"
-              >
+              <IconButton aria-label="toggle password visibility" onClick={toggleShowPassword} edge="end">
                 {showPassword ? <Visibility /> : <VisibilityOff />}
               </IconButton>
             </InputAdornment>

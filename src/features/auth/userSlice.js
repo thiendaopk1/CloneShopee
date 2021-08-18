@@ -4,18 +4,20 @@ import StorageKeys from '../../constants/storage-key';
 
 export const register = createAsyncThunk('user/register', async (payload) => {
   const data = await userApi.register(payload);
-
+  console.log('data', data);
+  const accessToken = data.accessToken;
   // luu data vao localStorage
-  localStorage.setItem(StorageKeys.TOKEN, data.jwt);
+  localStorage.setItem(StorageKeys.TOKEN, accessToken);
   localStorage.setItem(StorageKeys.USER, JSON.stringify(data.user));
 
   return data.user;
 });
 export const login = createAsyncThunk('user/login', async (payload) => {
   const data = await userApi.login(payload);
+  const accessToken = data.accessToken;
 
   // luu data vao localStorage
-  localStorage.setItem(StorageKeys.TOKEN, data.jwt);
+  localStorage.setItem(StorageKeys.TOKEN, accessToken);
   localStorage.setItem(StorageKeys.USER, JSON.stringify(data.user));
 
   return data.user;

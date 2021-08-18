@@ -3,17 +3,17 @@ import axios from 'axios';
 const axiosClient = axios.create({
   baseURL: 'http://localhost:8080/',
   //baseURL: 'https://25.50.183.23:25002/',
-  headers: {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-  },
+  // headers: {
+  //   'Content-Type': 'application/json',
+  //   Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+  // },
 });
 // Add a request interceptor
 axiosClient.interceptors.request.use(
   function (config) {
     // Do something before request is sent
 
-    config.headers.Authorization = `Bearer ${localStorage.getItem('access_token')}`;
+    config.headers.Authorization = `Bearer ${localStorage.getItem('accessToken')}`;
     return config;
   },
   function (error) {
@@ -40,8 +40,8 @@ axiosClient.interceptors.response.use(
     // console.log('loi email',error.response.data.message);
     const { config, status, data } = error.response;
     const URLs = [
-      '/auth/local/register',
-      'api/login/user',
+      'api/register',
+      'api/login',
       'users/reset-pass',
       'users/forgot-pass',
       'users/update-pass',
@@ -58,16 +58,5 @@ axiosClient.interceptors.response.use(
     return Promise.reject(error);
   },
 );
-// axios.interceptors.response.use(
-//   function (response) {
-//     // Any status code that lie within the range of 2xx cause this function to trigger
-//     // Do something with response data
-//     return response;
-//   },
-//   function (error) {
-//     // Any status codes that falls outside the range of 2xx cause this function to trigger
-//     // Do something with response error
-//     return Promise.reject(error);
-//   },
-// );
+
 export default axiosClient;

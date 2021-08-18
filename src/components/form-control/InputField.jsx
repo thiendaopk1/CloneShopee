@@ -27,7 +27,7 @@ function InputField(props) {
       disabled={disabled}
       error={!!hasError}
       // helperText={errors[name]?.message}
-      // style={{ border: '1px solid black' }}
+
       className="input-field"
     />
   );

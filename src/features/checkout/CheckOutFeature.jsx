@@ -8,6 +8,9 @@ import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 import { FormControl, RadioGroup, FormControlLabel, Radio, makeStyles, Button } from '@material-ui/core';
 import { cartTotalCountSelectors } from '../product/components/shoppingCart/selectors';
+import orderApi from '../../api/orderApi';
+import { useEffect } from 'react';
+import addressApi from '../../api/addressApi';
 CheckOutFeature.propTypes = {};
 
 const useStyle = makeStyles((theme) => ({
@@ -77,13 +80,48 @@ function CheckOutFeature(props) {
   const handleOnChange = (event) => {
     setPayment(event.target.value);
   };
+
+  // gọi api address
+  const [addressList, setAddressList] = useState([]);
+  console.log('addressList', addressList);
+  useEffect(() => {
+    (async () => {
+      try {
+        const list = await addressApi.getAll();
+        setAddressList(list);
+      } catch (error) {
+        console.log('error', error);
+      }
+    })();
+  }, []);
+  const handleNewAddress = async () => {};
+
+  const loggedInUser = useSelector((state) => state.user.current);
+  const { fullname, phone, email, address } = loggedInUser;
+  const handleSubmit = () => {
+    const data = {
+      fullname: fullname,
+      email: email,
+      address: address,
+      phone: phone,
+      cartItems: products,
+      cartTotal: cartTotal,
+      totalBill: totalBill,
+      payment: payment,
+    };
+
+    orderApi.add(data);
+  };
+
   return (
     <div>
       <div className="checkout__content">
         <div className="grid wide">
           <div className="row">
             <div className="col l-12">
-              <CheckOutAddress />
+              {addressList.length > 0 && (
+                <CheckOutAddress addressList={addressList} onSubmit={handleNewAddress} />
+              )}
             </div>
           </div>
           <div className="row">
@@ -168,7 +206,9 @@ function CheckOutFeature(props) {
                         </a>
                       </div>
                     </div>
-                    <Button className={classes.btn}>Đặt hàng</Button>
+                    <Button className={classes.btn} onClick={handleSubmit}>
+                      Đặt hàng
+                    </Button>
                   </div>
                 </div>
               </div>
