@@ -136,9 +136,7 @@ function AddToCartForm({ colors, onSubmit = null }) {
             <AddShoppingCartIcon className={classes.icon} />
             Thêm vào giỏ hàng
           </Button>
-          {/* <Button className={classes.btn2} onSubmit={handleSubmitBuyNow}>
-            Mua ngay
-          </Button> */}
+          <Button className={classes.btn2}>Mua ngay</Button>
         </div>
       </form>
     </div>

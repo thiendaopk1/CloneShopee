@@ -6,6 +6,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import AddToCartForm from './AddToCartForm';
 import { addToCart } from './shoppingCart/CartSlice';
 import { useDispatch } from 'react-redux';
+import { useSnackbar } from 'notistack';
+import AddToCartFormMobile from './AddToCartFormMobile';
 ProductInfo.propTypes = {
   product: PropTypes.object,
 };
@@ -24,14 +26,16 @@ const useStyle = makeStyles((theme) => ({
 }));
 
 function ProductInfo({ product = {} }) {
+  const { enqueueSnackbar } = useSnackbar();
   const classes = useStyle();
   const dispatch = useDispatch();
   const { name, salePrice, price, quantitySold, rate, colors } = product;
-  const [product1, setProduct1] = useState(product);
+  const [product1] = useState(product);
   const handleAddtoCart = (data) => {
     const newProduct = { ...product1 };
-    const res = colors.filter((colors) => colors.id === data.idc);
+    const res = colors.find((colors) => colors.id === data.idc);
     newProduct.colors = res;
+
     const action = addToCart({
       idp: product.id,
       idc: data.idc,
@@ -39,6 +43,7 @@ function ProductInfo({ product = {} }) {
       quantity: data.quantity,
     });
     dispatch(action);
+    enqueueSnackbar('bạn đã thêm sản phẩm vào giỏ hàng', { variant: 'success' });
   };
 
   return (
@@ -183,6 +188,10 @@ function ProductInfo({ product = {} }) {
         </div>
         <div className="product__action">
           <AddToCartForm colors={colors} onSubmit={handleAddtoCart} />
+        </div>
+
+        <div className="product__action-mobile">
+          <AddToCartFormMobile colors={colors} onSubmit={handleAddtoCart} />
         </div>
         <div className="product__more">
           <a href="" className="product__more-1">

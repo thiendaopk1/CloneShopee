@@ -26,10 +26,22 @@ import Search from '../search/Search';
 import Login from '../../features/auth/login/Login';
 import { cartItemsCountSelectors } from '../../features/product/components/shoppingCart/selectors';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import { logout } from '../../features/auth/userSlice';
 import { removeAll } from '../../features/product/components/shoppingCart/CartSlice';
+import { removeAllAddress } from '../../features/user/component/AddressSlice';
 import cartApi from '../../api/cartApi';
+import addressApi from '../../api/addressApi';
+import no_cart from '../../assets/images/no_cart.png';
+import '../../assets/css/reponsive.css';
+import MenuIcon from '@material-ui/icons/Menu';
+import SearchIcon from '@material-ui/icons/Search';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import CloseIcon from '@material-ui/icons/Close';
+import PermContactCalendarIcon from '@material-ui/icons/PermContactCalendar';
+import HomeIcon from '@material-ui/icons/Home';
+import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 Header.propTypes = {};
 const useStyle = makeStyles((theme) => ({
   icon__link: {
@@ -63,6 +75,27 @@ const useStyle = makeStyles((theme) => ({
     right: theme.spacing(1),
     color: theme.palette.grey[500],
   },
+
+  iconHeader: {
+    fontSize: '30px',
+    color: '#fff',
+    marginLeft: '5px',
+  },
+
+  iconMenuMobile: {
+    marginRight: '15px',
+    fontSize: '25px',
+  },
+
+  iconExitMobile: {
+    fontSize: '40px',
+  },
+
+  iconHeaderTablet: {
+    marginRight: '15px',
+    fontSize: '40px',
+    color: '#fff',
+  },
 }));
 
 const MODE = {
@@ -72,6 +105,9 @@ const MODE = {
 
 function Header(props) {
   const classes = useStyle();
+
+  useLocation();
+  useRouteMatch();
   //check isLogin
   const loggedInUser = useSelector((state) => state.user.current);
   const isLoggedIn = !!loggedInUser.id;
@@ -82,17 +118,22 @@ function Header(props) {
     return state.cart.cartItems;
   });
 
+  const data2 = JSON.parse(localStorage.getItem('address'));
   const data1 = JSON.parse(localStorage.getItem('cart'));
-
+  console.log('data2', data2);
   const handleLogout = () => {
     (async () => {
       try {
-        const thien = { cartItems: data1 };
-        await cartApi.add(thien);
+        // const thien = { cartItems: data1 };
+        const thien1 = { addressList: data2 };
+        // await cartApi.add(thien);
+        await addressApi.add(thien1);
         const action = logout();
         const action1 = removeAll();
+        const action2 = removeAllAddress();
         dispatch(action1);
         dispatch(action);
+        dispatch(action2);
       } catch (error) {
         console.log(error);
       }
@@ -156,6 +197,18 @@ function Header(props) {
     history.push('/');
   };
 
+  const handleClickPurchase = () => {
+    history.push('/user/purchase');
+  };
+
+  const handleClickUser = () => {
+    history.push('/user');
+  };
+
+  const handleClickAddress = () => {
+    history.push('/user/address');
+  };
+
   const handleClickCart = () => {
     history.push('/cart');
   };
@@ -163,8 +216,8 @@ function Header(props) {
   const cartItemsCount = useSelector(cartItemsCountSelectors);
   return (
     <div className="header">
-      <div className="grid">
-        <nav className="header__navbar">
+      <div className="grid wide">
+        <nav className="header__navbar hide-on-mobile-tablet">
           <ul className="header__navbar-list">
             <li className="header__navbar-item header__navbar-item--strong header__navbar-item--sperate ">
               Kênh Người Nán
@@ -252,25 +305,95 @@ function Header(props) {
                     </svg>
                   </div>
                 </div>
-                <span className="header__navbar-user-name">DaoTriThien</span>
+                <span className="header__navbar-user-name">{loggedInUser.fullname}</span>
                 <ul className="header__navbar-user-menu">
-                  <li className="header__navbar-user-item">
-                    <a href="">Tài Khoảng của tôi</a>
+                  <li className="header__navbar-user-item" onClick={handleClickUser}>
+                    <p>Tài Khoảng của tôi</p>
                   </li>
-                  <li className="header__navbar-user-item">
-                    <a href="">Đơn mua</a>
+                  <li className="header__navbar-user-item" onClick={handleClickPurchase}>
+                    <p>Đơn mua</p>
                   </li>
                   <li className="header__navbar-user-item" onClick={handleLogout}>
-                    <a href="">Đăng xuất</a>
+                    <p>Đăng xuất</p>
                   </li>
                 </ul>
               </li>
             )}
           </ul>
         </nav>
+
         {/* header-with-searh */}
         <div className="header-with-search">
-          <div className="header__logo" onClick={handleClickHome}>
+          <div className="header-with-search-left">
+            <label htmlFor="header-menu-bar">
+              <MenuIcon className={classes.iconHeader} />
+            </label>
+            <label htmlFor="header-search-bar">
+              <SearchIcon className={classes.iconHeader} />
+            </label>
+          </div>
+          <div className="header-with-search-left-tablet hide-on-mobile">
+            <label htmlFor="header-menu-bar">
+              <MenuIcon className={classes.iconHeaderTablet} />
+            </label>
+          </div>
+          {/* menu mobile */}
+
+          <input type="checkbox" id="header-menu-bar" hidden className="header__navbar-mobile-checkbox" />
+          <label htmlFor="header-menu-bar" className="header__navbar-mobile-overlay"></label>
+
+          <nav className="header__navbar-mobile">
+            <label htmlFor="header-menu-bar" className="header__navbar-mobile-icon-exit">
+              <CloseIcon className={classes.iconExitMobile} />
+            </label>
+            {!isLoggedIn && (
+              <>
+                <ul className="header__navbar-mobile-list">
+                  <li className="header__navbar-mobile-item" onClick={handleClickOpenLogIn}>
+                    <ExitToAppIcon className={classes.iconMenuMobile} />
+                    Đăng nhập
+                  </li>
+                  <li className="header__navbar-mobile-item " onClick={handleClickOpenSignUp}>
+                    <PersonAddIcon className={classes.iconMenuMobile} />
+                    Đăng ký
+                  </li>
+                </ul>
+              </>
+            )}
+            {isLoggedIn && (
+              <>
+                <div className="header__navbar-mobile-loggedIn">
+                  <ul className="header__navbar-mobile-loggedIn-list">
+                    <li className="header__navbar-mobile-loggedIn-item" onClick={handleClickHome}>
+                      <HomeIcon className={classes.iconMenuMobile} />
+                      Trang chủ
+                    </li>
+                    <li className="header__navbar-mobile-loggedIn-item" onClick={handleClickUser}>
+                      <PermContactCalendarIcon className={classes.iconMenuMobile} />
+                      Tài khoản của tôi
+                    </li>
+                    <li className="header__navbar-mobile-loggedIn-item" onClick={handleClickPurchase}>
+                      <ShoppingBasketIcon className={classes.iconMenuMobile} />
+                      Đơn mua
+                    </li>
+                    <li className="header__navbar-mobile-loggedIn-item" onClick={handleClickAddress}>
+                      <HomeIcon className={classes.iconMenuMobile} />
+                      Địa chỉ
+                    </li>
+                  </ul>
+                  <ul className="header__navbar-mobile-logOut-list">
+                    <li className="header__navbar-mobile-logOut-item" onClick={handleLogout}>
+                      <ExitToAppIcon className={classes.iconMenuMobile} />
+                      Đăng xuất
+                    </li>
+                  </ul>
+                </div>
+              </>
+            )}
+          </nav>
+
+          {/* end menu mobile */}
+          <div className="header__logo hide-on-tablet " onClick={handleClickHome}>
             <svg viewBox="0 0 192 65" class="header__logo-img">
               <g fill-rule="evenodd">
                 <path
@@ -280,18 +403,20 @@ function Header(props) {
               </g>
             </svg>
           </div>
-
+          <input type="checkbox" id="header-search-bar" hidden className="header__search-icon-bar" />
           <Search />
 
           <div className="header__cart">
             <div className="header__cart-wrap" onClick={handleClickCart}>
               <ShoppingCartIcon className={classes.cart_icon} />
-              {/* <div className="header__cart-list header__cart-no-cart">
-                                <img src={no_cart} alt="" className="header__cart-img-no-cart" />
-                                <span className="header__cart-no-cart-msg">Chưa có sản phẩm</span>
-                            </div> */}
+              {products.length === 0 && (
+                <div className="header__cart-list header__cart-no-cart">
+                  <img src={no_cart} alt="" className="header__cart-img-no-cart" />
+                  <span className="header__cart-no-cart-msg">Chưa có sản phẩm</span>
+                </div>
+              )}
               <span className="header__cart-notice">{cartItemsCount}</span>
-              <Cart />
+              {products.length !== 0 && <Cart />}
             </div>
           </div>
         </div>

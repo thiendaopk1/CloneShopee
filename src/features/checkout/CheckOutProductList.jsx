@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import CheckOutProduct from './CheckOutProduct';
 import { useSelector } from 'react-redux';
 import { cartTotalCountSelectors } from '../product/components/shoppingCart/selectors';
+import CheckOutProductMobile from './CheckOutProductMobile';
 CheckOutProductList.propTypes = {
   products: PropTypes.array,
 };
@@ -20,7 +21,12 @@ function CheckOutProductList({ products }) {
           <div className="checkout__product-list-item">
             {products.map((product) => (
               <div key={(product.idc, product.idp)}>
-                <CheckOutProduct product={product} />
+                <div className="hide-on-mobile">
+                  <CheckOutProduct product={product} />
+                </div>
+                <div>
+                  <CheckOutProductMobile product={product} />
+                </div>
               </div>
             ))}
           </div>

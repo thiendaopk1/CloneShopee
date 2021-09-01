@@ -1,0 +1,326 @@
+/* Mobile & Tablet */
+@media (max-width: 1023px) {
+    .hide-on-mobile-tablet {
+        display: none !important;
+    }
+
+    .paddingTop {
+        padding-top: 42px !important;
+    }
+
+    :root {
+        --header-height: 68px;
+        --navbar-height: 0px;
+    }
+
+    .header {
+        position: fixed;
+        z-index: 15;
+        top: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .app__container {
+        padding: 68px;
+    }
+
+    .header__cart-list {
+        position: fixed;
+        top: var(--header-height);
+        right: 0;
+        width: 100%;
+        padding: 0 calc((100% - 644px)/2);
+    }
+
+    .header__cart-list::after {
+        display: none;
+    }
+
+    .product__sort-tablet-mobile {
+        display: block;
+    }
+
+    .shopping__cart,
+    .user__container {
+        padding: 80px 0 50px !important;
+    }
+
+    .purchase__filter-item:first-child {
+        display: none;
+    }
+
+    .purchase__filter-item {
+        width: 20% !important;
+    }
+
+    .user__address-label {
+        width: 86px !important;
+        text-align: left !important;
+    }
+
+    .shopping__cart-product-mobile {
+        display: flex !important;
+    }
+
+    .checkout__content {
+        padding: 68px 0px;
+    }
+
+   
+}
+
+/* Tablet */
+@media (min-width: 740px) and (max-width: 1023px) {
+    .hide-on-tablet {
+        display: none;
+    }
+
+    .header__cart {
+        width: 58px;
+        text-align: right;
+        z-index: 4;
+    }
+
+    .header__cart-no-cart {
+        justify-content: center;
+        align-items: center;
+        display: none;
+        flex-direction: column;
+        padding: 20px 0 !important;
+    }
+
+    .header__cart-wrap:hover .header__cart-list{
+        display: flex;
+    }
+
+    .header-with-search-left-tablet {
+        display: flex;
+    }
+
+    .product__detail-img-top {
+        width: unset !important;
+        height: unset !important;
+    }
+
+    .shopping__cart-footer-favorite {
+        display: none;
+    }
+
+    .shopping__cart-footer-checkOut,
+    .shopping__cart-footer-price,
+    .shopping__cart-footer-deleteAll {
+        width: unset !important;
+    }
+
+    .shopping__cart-footer-checkOut {
+        padding: 10px 0px !important;
+    }
+
+    .checkout__product-header-price {
+        display: none !important;
+    }
+
+    .checkout__product-price {
+        display: none !important;
+    }
+
+    .checkout__product-type {
+        flex: 1.3 1 !important;
+    }
+
+    
+}
+
+/* Mobile */
+@media (max-width: 739px) {
+    .hide-on-mobile {
+        display: none !important;
+    }
+
+    .app__container {
+        padding: 68px 5px;
+    }
+
+    .header-with-search {   
+        justify-content: space-between;
+    }
+
+    .header__logo {
+        width: unset;
+    }
+
+    .header__cart {
+        width: unset;
+    }
+    
+
+    .header-with-search-left {
+        display: block;
+    }
+    
+    .header__search {
+        position: fixed;
+        top: 68px;
+        left: 0;
+        right: 0;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        border-radius: 0;
+        height: 48px;
+        display: none;
+        animation:mobileSearchSideIn linear 0.3s;
+    }
+    
+    .header__search-history {
+        position: fixed;
+        top: calc(68px + 48px);
+        left: 0;
+        right: 0;
+        width: 100%;
+        
+    }
+
+    .user__content {
+        margin-left: 0 !important;
+    }
+
+    .user__address-content-left {
+        cursor: pointer;
+    }
+
+    .user__info-label {
+        width: 25% !important;
+    }
+
+    .user__info-username {
+        width: 75% !important;
+    }
+
+    .product__info {
+        padding-bottom: 15px !important;
+    }
+
+    .user__info-btn { 
+        padding-left: calc(25% + 20px);
+    }
+
+    .product__detail-img-top {
+        width: unset !important;
+        height: unset !important;
+    }
+
+    .product__action,
+    .product__more,
+    .product__delivery {
+        display: none;
+    }
+
+    .product__rating-overview {
+        flex-direction: column !important;
+    }
+
+    .product__rating-pagination {
+        justify-content: center !important;
+    }
+
+    .product__name {
+        min-height: 30px !important;
+        line-height: 18px !important;
+    }
+
+    .quantity__form-label,
+    .product__type-label {
+        margin-left: 15px !important;
+    }
+
+    .quantity__form-control {
+        margin-bottom: 10px;
+    }
+
+    .quantity__control,
+    .product__type-list {
+        padding: unset !important;
+    }
+
+    .addToCart__btn-mobile {
+        display: flex !important;
+    }
+
+    .shopping__cart-mobile-footer {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: unset !important;
+        margin-bottom: unset !important;
+        display: flex !important;
+    }
+
+    .shopping__cart-footer-box {
+        padding: 0 !important;
+        font-size: 1.4rem !important;
+    }
+
+    .shopping__cart-footer-totalPrice {
+        font-size: 1.7rem !important;
+    }
+    
+    .shopping__cart-footer-deleteAll {
+        width: unset !important;
+    }
+
+    .shopping__cart-footer-favorite {
+        display: none;
+    }
+
+    .shopping__cart-footer-checkOut {
+        width: unset !important;
+    }
+
+    .shopping__cart-footer-price1 {
+        justify-content: flex-end;
+        padding: 16.5px 10px;
+        width: 100%;
+        border-top: 1px solid #808080;
+    }
+    
+    .view-checkout-on-mobile,
+    .checkout__address--border-bottom {
+        display: block !important;
+    }
+
+    .checkout__address-content {
+        padding: 10px 10px 10px !important;
+    }
+
+    .checkout__address-mobile {
+        display: block !important;
+    }
+
+    .checkout__product-list-item {
+        padding-bottom: 10px !important;
+    }
+
+    .checkout___product-mobile-item {
+        display: flex !important;
+    }
+
+    .checkout__product-payment-action {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #fff;
+    }
+
+    @keyframes mobileSearchSideIn {
+        from {
+            opacity: 0;
+            top: 55px
+        }
+        to {
+            opacity: 1;
+            top: 68px;
+        }
+    }
+}

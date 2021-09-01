@@ -14,10 +14,10 @@ function UserFeature(props) {
     <div className="user__container">
       <div className="grid wide">
         <div className="row">
-          <div className="col l-2">
+          <div className="col l-2 m-0 c-0">
             <UserMenu />
           </div>
-          <div className="col l-10">
+          <div className="col l-10 m-12 c-12">
             <Switch>
               <div className="user__content">
                 <Paper elevation={0}>

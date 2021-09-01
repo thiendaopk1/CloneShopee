@@ -3,7 +3,7 @@ import productApi from '../../api/productApi';
 
 export default function useProductDetail(productId) {
   const [product, setProduct] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState([true]);
 
   useEffect(() => {
     (async () => {

@@ -5,9 +5,10 @@ import InputField from '../../../components/form-control/InputField';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-NewAddressForm.propTypes = {
+NewAddressFormCheckOut.propTypes = {
+  onSubmitNew: PropTypes.func,
   closeDialog: PropTypes.func,
-  onSubmit1: PropTypes.func,
+  onSubmitNewAddress1: PropTypes.func,
 };
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -93,7 +94,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-function NewAddressForm({ closeDialog = null, onSubmit1 }) {
+function NewAddressFormCheckOut({ onSubmitNew = null, closeDialog = null }) {
   const classes = useStyles();
   const schema = yup.object().shape({
     name: yup
@@ -140,8 +141,8 @@ function NewAddressForm({ closeDialog = null, onSubmit1 }) {
       address: values.address,
       status: checked,
     };
-    if (onSubmit1) {
-      await onSubmit1(data);
+    if (onSubmitNew) {
+      await onSubmitNew(data);
     }
   };
 
@@ -176,4 +177,4 @@ function NewAddressForm({ closeDialog = null, onSubmit1 }) {
   );
 }
 
-export default NewAddressForm;
+export default NewAddressFormCheckOut;

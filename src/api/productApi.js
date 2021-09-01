@@ -5,7 +5,7 @@ const productApi = {
     const url = `/api/products`;
     return axiosClient.get(url, { params });
   },
-  getAll2(params) {
+  search(params) {
     const url = `api/products?${params}`;
     return axiosClient.get(url);
   },

@@ -1,20 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {
-  Button,
-  makeStyles,
-  ButtonBase,
-  createTheme,
-  Tabs,
-  Tab,
-  ThemeProvider,
-  useMediaQuery,
-} from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { ButtonBase, createTheme, makeStyles, Tab, Tabs, ThemeProvider } from '@material-ui/core';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import PropTypes from 'prop-types';
+import React from 'react';
+import '../../../assets/css/reponsive.css';
 
-import { useState } from 'react';
 ProductSort.propTypes = {
   currentSort: PropTypes.string.isRequired,
   onChange: PropTypes.func,
@@ -105,7 +95,7 @@ const theme = createTheme({
 });
 function ProductSort({ pagination = {}, currentSort, onChange, onChangePagi }) {
   const classes = useStyle();
-  const matches = useMediaQuery('(min-width:600px)');
+
   //sort
   const handleSortChange = (event, newValue) => {
     if (onChange) onChange(newValue);
@@ -117,7 +107,7 @@ function ProductSort({ pagination = {}, currentSort, onChange, onChangePagi }) {
   };
   const pageCount = Math.ceil(pagination._total / pagination._limit);
   return (
-    <div className="product-sort">
+    <div className="product-sort hide-on-mobile-tablet">
       <span className="product-sort-label">Sắp xếp theo</span>
       <div className="product-sort__options">
         <ThemeProvider theme={theme}>

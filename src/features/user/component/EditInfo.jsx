@@ -7,6 +7,7 @@ import InputField from '../../../components/form-control/InputField';
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core';
 import { useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 EditInfo.propTypes = {};
 const useStyles = makeStyles((theme) => ({
   btn: {
@@ -58,6 +59,10 @@ function EditInfo(props) {
     console.log(data);
   };
 
+  const isLoggedIn = !!loggedInUser.id;
+  if (!isLoggedIn) {
+    return <Redirect to="/" />;
+  }
   return (
     <div className="user__info">
       <div className="user__info-header">

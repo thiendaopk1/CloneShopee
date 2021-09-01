@@ -3,51 +3,55 @@ import PropTypes from 'prop-types';
 
 import DeliveryAddress from './Address/DeliveryAddress';
 import DeliveryAddressList from './Address/DeliveryAddressList';
+import DeliveryAddressMobileList from './Address/DeliveryAddressMobileList';
 CheckOutAddress.propTypes = {
   addressList: PropTypes.array,
-  onSubmit: PropTypes.func,
+  addressChecked: PropTypes.object,
+  onChange: PropTypes.object,
 };
 
 CheckOutAddress.defaultProps = {
   addressList: [],
 };
 
-function CheckOutAddress({ addressList, onSubmit = null }) {
+function CheckOutAddress({ onChange = null, addressList, addressChecked = {} }) {
   const [view, setView] = useState(true);
-
+  console.log('addressChecked', addressChecked);
   const handleChangeView = (state) => {
     setView(state);
   };
-  // conver array to object
-  useEffect(() => {}, []);
-  const arrayChecked = addressList.filter((address) => address.status === true);
-  var arrayToString = JSON.stringify(Object.assign({}, arrayChecked[0]));
-  var res = JSON.parse(arrayToString);
-  console.log('res', res);
-  // end conver array to object
 
-  const [addressChecked, setAddressChecked] = useState(res);
-
-  const handleChangeAddress = () => {
-    setAddressChecked();
+  const handleChangeAddress = async (value) => {
+    console.log(value);
+    if (onChange) {
+      await onChange(value);
+    }
   };
 
-  const handleSubmitNewAddress = async () => {};
-
   return (
-    <div className="checkout__address">
-      <div className="checkout__address--border-top"></div>
-      <div className="checkout__address-content">
-        {view === true && <DeliveryAddress onClick={handleChangeView} address={addressChecked} />}
-        {view === false && (
-          <DeliveryAddressList
-            onClick={handleChangeView}
-            onSubmit={handleSubmitNewAddress}
-            addressList={addressList}
-            addressChecked={addressChecked}
-            onChange={handleChangeAddress}
-          />
-        )}
+    <div>
+      <div className="checkout__address">
+        <div className="checkout__address--border-top hide-on-mobile"></div>
+        <div className="checkout__address-content">
+          {view === true && <DeliveryAddress onClick={handleChangeView} address={addressChecked} />}
+          {view === false && (
+            <>
+              <DeliveryAddressList
+                onClickChange={handleChangeView}
+                addressList={addressList}
+                addressChecked={addressChecked}
+                onChange={handleChangeAddress}
+              />
+              <DeliveryAddressMobileList
+                onClickChange={handleChangeView}
+                addressList={addressList}
+                addressChecked={addressChecked}
+                onChange={handleChangeAddress}
+              />
+            </>
+          )}
+        </div>
+        <div className="checkout__address--border-bottom"></div>
       </div>
     </div>
   );

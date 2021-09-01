@@ -3,7 +3,7 @@ import axiosClient from './axiosClient';
 
 const addressApi = {
   getAll(params) {
-    const url = `/api/address`;
+    const url = `/api/v2/address`;
     return axiosClient.get(url, { params });
   },
 
@@ -13,7 +13,7 @@ const addressApi = {
   },
 
   add(data) {
-    const url = `/api/address`;
+    const url = `/api/v2/address`;
     return axiosClient.post(url, data);
   },
 

@@ -1,8 +1,9 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { setStateAddress } from './AddressSlice';
 import EditAddressForm from './EditAddressForm';
-import addressApi from '../../../api/addressApi';
-
+import { useSnackbar } from 'notistack';
 EditAddress.propTypes = {
   closeDialog: PropTypes.func,
   address: PropTypes.object,
@@ -10,17 +11,21 @@ EditAddress.propTypes = {
 };
 
 function EditAddress({ closeDialog = null, address = {}, onSubmitEdit = null }) {
+  const { enqueueSnackbar } = useSnackbar();
+  const dispatch = useDispatch();
   const handleEditAddress = async (data) => {
-    console.log('data4', data);
-    try {
-      data.id = address.id;
-      const res = await addressApi.editAddress(data);
-      onSubmitEdit(res);
-      if (closeDialog) {
-        closeDialog();
-      }
-    } catch (error) {
-      console.log('error', error);
+    const action = setStateAddress({
+      id: address.id,
+      status: data.status,
+      name: data.name,
+      phone: data.phone,
+      address: data.address,
+    });
+    dispatch(action);
+    enqueueSnackbar('bạn đã chỉnh sửa địa chỉ', { variant: 'success' });
+
+    if (closeDialog) {
+      closeDialog();
     }
   };
   return (

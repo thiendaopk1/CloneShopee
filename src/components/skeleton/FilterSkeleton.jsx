@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Box, Grid, makeStyles } from '@material-ui/core';
+import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 
 FilterSkeleton.propTypes = {
   length: PropTypes.number,
 };
 FilterSkeleton.defaultProps = {
-  length: 6,
+  length: 4,
 };
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -23,21 +23,13 @@ function FilterSkeleton({ length }) {
   const classes = useStyles();
   return (
     <Box>
-      <Grid container>
-        {Array.from(new Array(length)).map((x, index) => (
-          <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
-            <Box>
-              <Skeleton
-                className={classes.top}
-                variant="rect"
-                width="240px"
-                height={230}
-              />
-              <Skeleton variant="rect" width="240px" height={100} />
-            </Box>
-          </Grid>
-        ))}
-      </Grid>
+      {Array.from(new Array(length)).map((x, index) => (
+        <Box padding={1}>
+          <Typography variant="body1">
+            <Skeleton width="100%" />
+          </Typography>
+        </Box>
+      ))}
     </Box>
   );
 }

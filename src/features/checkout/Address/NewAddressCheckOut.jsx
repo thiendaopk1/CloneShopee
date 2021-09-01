@@ -1,22 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import NewAddressForm from './NewAddressForm';
+import NewAddressCheckOutForm from './NewAddressCheckOutForm';
 import addressApi from '../../../api/addressApi';
-import { addAddress } from '../component/AddressSlice';
+import { addAddress } from '../../user/component/AddressSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
 import { useSnackbar } from 'notistack';
-NewAddress.propTypes = {
+NewAddressCheckOut.propTypes = {
   closeDialog: PropTypes.func,
+  onSubmitNew: PropTypes.func,
 };
 
-function NewAddress({ closeDialog = null }) {
+function NewAddressCheckOut({ closeDialog = null, onSubmitNew = null }) {
   const { enqueueSnackbar } = useSnackbar();
-  const dispatch = useDispatch();
   let listAddress = JSON.parse(localStorage.getItem('address'));
   const loggedInUser = useSelector((state) => state.user.current);
-  console.log(loggedInUser.id);
-  const handleNewAddress1 = async (data) => {
+  const dispatch = useDispatch();
+  const handleNewAddress = async (data) => {
     if (listAddress === null) {
       const action = addAddress({
         name: data.name,
@@ -27,10 +26,10 @@ function NewAddress({ closeDialog = null }) {
         user: loggedInUser.id,
       });
       dispatch(action);
+      enqueueSnackbar('bạn đã thêm địa chỉ mới', { variant: 'success' });
       if (closeDialog) {
         closeDialog();
       }
-      enqueueSnackbar('bạn đã thêm địa chỉ mới', { variant: 'success' });
     } else if (listAddress !== null) {
       const action = addAddress({
         name: data.name,
@@ -38,21 +37,20 @@ function NewAddress({ closeDialog = null }) {
         phone: data.phone,
         status: data.status,
         id: listAddress.pop().id + 1,
-        user: loggedInUser.id,
       });
       dispatch(action);
+      enqueueSnackbar('bạn đã thêm địa chỉ mới', { variant: 'success' });
       if (closeDialog) {
         closeDialog();
       }
-      enqueueSnackbar('bạn đã thêm địa chỉ mới', { variant: 'success' });
     }
   };
 
   return (
     <div>
-      <NewAddressForm closeDialog={closeDialog} onSubmit1={handleNewAddress1} />
+      <NewAddressCheckOutForm onSubmitNew={handleNewAddress} closeDialog={closeDialog} />
     </div>
   );
 }
 
-export default NewAddress;
+export default NewAddressCheckOut;

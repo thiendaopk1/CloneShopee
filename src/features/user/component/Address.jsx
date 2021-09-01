@@ -1,19 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {
-  Button,
-  Dialog,
-  IconButton,
-  makeStyles,
-  useMediaQuery,
-  useTheme,
-  DialogContent,
-} from '@material-ui/core';
+import { Button, Dialog, DialogContent, makeStyles, useMediaQuery, useTheme } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import AddressList from './AddressList';
-import { useEffect } from 'react';
-import { useState } from 'react';
-import addressApi from '../../../api/addressApi';
 import NewAddress from './NewAddress';
 Address.propTypes = {};
 const useStyles = makeStyles((theme) => ({
@@ -58,32 +48,15 @@ function Address(props) {
     setOpen(false);
   };
   // end dialog
-  const [addressList, setAddressList] = useState([]);
-  useEffect(() => {
-    (async () => {
-      try {
-        const list = await addressApi.getAll();
-        setAddressList(list);
-      } catch (error) {
-        console.log('error', error);
-      }
-    })();
-  }, []);
-  // handleNewAddress
-  const handleNewAddress = async (data) => {
-    setAddressList(data);
-  };
-  // handleEditAddress
-  const handleEditAddress = async (data) => {
-    setAddressList(data);
-  };
 
-  // handleAddressDefault
-  const handleAddressDefault = async (data) => {
-    setAddressList(data);
-  };
-
-  const handleDeleteAddress = async () => {};
+  const addressList = useSelector((state) => {
+    return state.address.addressItems;
+  });
+  const loggedInUser = useSelector((state) => state.user.current);
+  const isLoggedIn = !!loggedInUser.id;
+  if (!isLoggedIn) {
+    return <Redirect to="/" />;
+  }
   return (
     <div className="user__address">
       <div className="user__address-header">
@@ -98,12 +71,7 @@ function Address(props) {
         </div>
       </div>
       <div>
-        <AddressList
-          addressList={addressList}
-          onSubmitEdit={handleEditAddress}
-          onSubmitDefault={handleAddressDefault}
-          onSubmitDelete={handleDeleteAddress}
-        />
+        <AddressList addressList={addressList} />
       </div>
       <Dialog
         fullScreen={fullScreen}
@@ -114,7 +82,7 @@ function Address(props) {
         aria-labelledby="responsive-dialog-title"
       >
         <DialogContent>
-          <NewAddress closeDialog={handleClose} onSubmitNew={handleNewAddress} />
+          <NewAddress closeDialog={handleClose} />
         </DialogContent>
       </Dialog>
     </div>

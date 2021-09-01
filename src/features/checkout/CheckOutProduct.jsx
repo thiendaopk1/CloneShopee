@@ -16,7 +16,7 @@ function CheckOutProduct({ product = {} }) {
         </span>
       </div>
       <div className="checkout__product-type">
-        <span className="checkout__product-type1">Loại: {newProduct.colors[0].colorName}</span>
+        <span className="checkout__product-type1">Loại: {newProduct.colors.colorName}</span>
       </div>
       <div className="checkout__product-price">
         {new Intl.NumberFormat('vi-VN', {

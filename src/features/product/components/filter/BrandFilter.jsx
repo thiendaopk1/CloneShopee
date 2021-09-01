@@ -7,6 +7,7 @@ BrandFilter.propTypes = {
   onChange: PropTypes.func,
   brandList: PropTypes.array,
   active: PropTypes.number,
+  loading: PropTypes.bool,
 };
 
 function BrandFilter({ onChange, brandList, active }) {

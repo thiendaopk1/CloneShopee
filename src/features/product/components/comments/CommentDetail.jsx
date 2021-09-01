@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Rating from '@material-ui/lab/Rating';
 import { makeStyles } from '@material-ui/core';
+
 CommentDetail.propTypes = {
   comment: PropTypes.object,
 };
@@ -14,8 +15,8 @@ const useStyle = makeStyles((theme) => ({
 }));
 function CommentDetail({ comment = {} }) {
   const classes = useStyle();
-
-  const { content, date, rate, userName } = comment;
+  console.log('comment', comment);
+  const { content, date, rate, userName, color } = comment;
   return (
     <div className="user__comment">
       <div className="user__comment-avatar">
@@ -40,6 +41,7 @@ function CommentDetail({ comment = {} }) {
         <div className="user__comment-rate">
           <Rating name="half-rating-read" value={rate} precision={0.1} readOnly className={classes.rate} />
         </div>
+        <div className="user__comment-color-type">Phân loại: {color.colorName}</div>
         <div className="user__comment-content">{content}</div>
         <div className="user__comment-date">{date}</div>
       </div>

@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { Input, Button, makeStyles } from '@material-ui/core';
-import RoomIcon from '@material-ui/icons/Room';
+import { Button, Dialog, DialogContent, makeStyles, useMediaQuery, useTheme } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
+import RoomIcon from '@material-ui/icons/Room';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import NewAddressCheckOut from './NewAddressCheckOut';
 DeliveryAddressList.propTypes = {
   addressList: PropTypes.array,
   addressChecked: PropTypes.object,
+  onChange: PropTypes.func,
+  onClickChange: PropTypes.func,
+  onSubmitNew: PropTypes.func,
 };
 DeliveryAddressList.defaultProps = {
   addressList: [],
@@ -89,54 +94,111 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function DeliveryAddressList({ addressList, addressChecked = {} }) {
+function DeliveryAddressList({ addressList, addressChecked = {}, onChange = null, onClickChange = null }) {
   const classes = useStyles();
   const [value, setValue] = useState(addressChecked);
-  console.log('value', value);
+
   const handleChange = (address) => {
-    console.log('address', address);
+    setValue(address);
   };
+
+  const handleChangeView = () => {
+    const state = true;
+    if (onClickChange) {
+      onClickChange(state);
+    }
+  };
+  const history = useHistory();
+  useRouteMatch();
+  useLocation();
+  const handleSettingAddress = () => {
+    history.push('user/address');
+  };
+
+  const handleChoseAddress = async () => {
+    const state = true;
+    if (onChange) {
+      await onChange(value);
+      if (onClickChange) {
+        onClickChange(state);
+      }
+    }
+  };
+
+  // dialog
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpenNew = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  // end dialog
   return (
     <div>
-      <div className="checkout__address-header">
-        <div className="checkout__address-label1">
-          <RoomIcon />
-          Địa Chỉ Nhận Hàng
+      <div className="hide-on-mobile">
+        <div className="checkout__address-header">
+          <div className="checkout__address-label1">
+            <RoomIcon />
+            Địa Chỉ Nhận Hàng
+          </div>
+          <div className="checkout__address-header-buttons">
+            <Button className={classes.addNewAddress} onClick={handleClickOpenNew}>
+              <AddIcon className={classes.icon} />
+              Thêm địa chỉ mới
+            </Button>
+            <Button className={classes.backToAddress} onClick={handleSettingAddress}>
+              Thiết lập địa chỉ
+            </Button>
+          </div>
         </div>
-        <div className="checkout__address-header-buttons">
-          <Button className={classes.addNewAddress}>
-            <AddIcon className={classes.icon} />
-            Thêm địa chỉ mới
-          </Button>
-          <Button className={classes.backToAddress}>Thiết lập địa chỉ</Button>
+        <div>
+          <ul className="address__radio-group-list">
+            {addressList.map((address) => (
+              <li key={address.id} className="address__radio-group-item">
+                <input
+                  type="radio"
+                  name="address"
+                  id={address.id}
+                  value={address.id}
+                  checked
+                  onClick={() => handleChange(address)}
+                  className="address__radio-group-item-input"
+                />
+                <label htmlFor={address.id} className="address__radio-group-item-name">
+                  {address.name} {address.phone}
+                  <p className="address__radio-group-item-address">{address.address}</p>
+                </label>
+                {address.status === true && <div className="address__radio-group-item-default">Mặc định</div>}
+              </li>
+            ))}
+          </ul>
+          <div className="address__button">
+            <Button className={classes.complete} onClick={handleChoseAddress}>
+              Hoàn Thành
+            </Button>
+            <Button className={classes.back} onClick={handleChangeView}>
+              Trở lại
+            </Button>
+          </div>
         </div>
       </div>
-      <div>
-        <ul className="address__radio-group-list">
-          {addressList.map((address) => (
-            <li key={address.id} className="address__radio-group-item" htmlFor={address.id}>
-              <input
-                type="radio"
-                name="address"
-                id={address.id}
-                value={address.id}
-                checked
-                onClick={() => handleChange(address)}
-                className="address__radio-group-item-input"
-              />
-              <label htmlFor={address.id} className="address__radio-group-item-name">
-                {address.name} {address.phone}
-                <p className="address__radio-group-item-address">{address.address}</p>
-              </label>
-              {address.status === true && <div className="address__radio-group-item-default">Mặc định</div>}
-            </li>
-          ))}
-        </ul>
-        <div className="address__button">
-          <Button className={classes.complete}>Hoàn Thành</Button>
-          <Button className={classes.back}>Trở lại</Button>
-        </div>
-      </div>
+      <Dialog
+        fullScreen={fullScreen}
+        open={open}
+        onClose={handleClose}
+        disableBackdropClick
+        disableEscapeKeyDown
+        aria-labelledby="responsive-dialog-title"
+      >
+        <DialogContent>
+          <NewAddressCheckOut closeDialog={handleClose} />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
